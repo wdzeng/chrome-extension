@@ -1,0 +1,32 @@
+name: Chrome Extension Action
+description: Upload and publish chrome extension to the Chrome Web Store
+author: Hyperbola
+
+inputs:
+  extension-id:
+    description: (Optional) Extension ID; leave it blank when publishing new extension
+    required: false
+  zip-path:
+    description: Path to a .zip of your extension
+    required: true
+  tester-only:
+    description: If true then the extension is published to trusted testers only. Default to false.
+    required: false
+    default: "false"
+  client-id:
+    description: Google OAuth2 client id
+    required: true
+  client-secret:
+    description: Google OAuth2 client secret
+    required: true
+  refresh-token:
+    description: Google OAuth2 refresh token
+    required: true
+
+runs:
+  using: node16
+  main: index.js
+
+branding:
+  icon: aperture
+  color: red

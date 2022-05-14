@@ -1,5 +1,9 @@
 # Chrome Extension
 
+![version](https://img.shields.io/github/v/release/wdzeng/chrome-extension)
+![workflow](https://img.shields.io/github/workflow/status/wdzeng/chrome-extension/Build?label=ci&logo=github)
+![license](https://img.shields.io/github/license/wdzeng/chrome-extension?color=red)
+
 This action publishes your Chrome extension to [Chrome Web Store](https://chrome.google.com/webstore/) using the [Chrome Web Store API v1.1](https://developer.chrome.com/docs/webstore/api_index/#items).
 
 This action can only publish new version of an existing extension. Publishing new extension is not supported.

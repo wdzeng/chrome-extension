@@ -1,7 +1,7 @@
 {
   "name": "chrome-extension",
   "private": true,
-  "description": "Upload chrome extension to the Chrome Web Store",
+  "description": "Publish chrome extension to the Chrome Web Store.",
   "scripts": {
     "build": "mkdir -p dist && tsc && ncc build dist/index.js && cp action.yml dist",
     "clean": "rm -rf dist src/index.js"

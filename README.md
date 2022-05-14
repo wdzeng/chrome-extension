@@ -31,7 +31,7 @@ Example:
 steps:
   - uses: wdzeng/chrome-extension@v1
     with:
-      extension-id: yout-extension-id
+      extension-id: your-extension-id
       zip-path: your-extension.zip
       tester-only: false
       client-id: ${{ secrets.CHROME_CLIENT_ID }}

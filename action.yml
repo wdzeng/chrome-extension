@@ -4,23 +4,23 @@ author: Hyperbola
 
 inputs:
   extension-id:
-    description: (Optional) Extension ID; leave it blank when publishing new extension
+    description: (Optional) Extension ID. Leave it blank when publishing new extension.
     required: false
   zip-path:
-    description: Path to a .zip of your extension
+    description: Path to a zip file of the extension.
     required: true
   tester-only:
-    description: If true then the extension is published to trusted testers only. Default to false.
+    description: Whether the extension is published to trusted testers only. Default to false.
     required: false
     default: "false"
   client-id:
-    description: Google OAuth2 client id
+    description: Google OAuth2 client ID.
     required: true
   client-secret:
-    description: Google OAuth2 client secret
+    description: Google OAuth2 client secret.
     required: true
   refresh-token:
-    description: Google OAuth2 refresh token
+    description: Google OAuth2 refresh token.
     required: true
 
 runs:

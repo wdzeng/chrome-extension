@@ -14,8 +14,11 @@ async function generateJwtToken(clientId: string, clientSecret: string, refreshT
     refresh_token: refreshToken,
     grant_type: 'refresh_token'
   })
+
+  const accessToken = response.data.access_token
   core.info('Access token refreshed.')
-  return response.data.access_token
+  core.debug('Access token: ' + accessToken)
+  return accessToken
 }
 
 async function updateExtension(extId: string, zipPath: string, token: string): Promise<void> {
@@ -46,17 +49,13 @@ async function publishExtension(extId: string, testerOnly: boolean, token: strin
     'x-goog-api-version': '2',
     'Content-Length': '0'
   }
-  const response = await axios.post(url, null, { headers, params: { target } })
-
-  core.debug('Response status code: ' + response.status)
-  core.debug(JSON.stringify(response.headers))
-  core.debug(JSON.stringify(response.data))
+  await axios.post(url, null, { headers, params: { target } })
 
   core.info('Extension published.')
 }
 
 async function run(extensionId: string, zipPath: string, testerOnly: boolean, clientId: string, clientSecret: string, refreshToken: string): Promise<void> {
-  core.info(`Start to publish extension to Web Store.`)
+  core.info('Start to publish extension to Web Store.')
 
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
   await updateExtension(extensionId, zipPath, jwtToken)
@@ -66,6 +65,8 @@ async function run(extensionId: string, zipPath: string, testerOnly: boolean, cl
 }
 
 function handleError(error: unknown): void {
+  core.debug(JSON.stringify(error))
+
   // HTTP error
   if (error instanceof AxiosError) {
     if (error.response) {
@@ -89,7 +90,7 @@ function handleError(error: unknown): void {
 }
 
 async function main(): Promise<void> {
-  const extensionId = core.getInput('extension-id')
+  const extensionId = core.getInput('extension-id', { required: true })
   const zipPath = core.getInput('zip-path', { required: true })
   const testerOnly = core.getBooleanInput('tester-only')
   const clientId = core.getInput('client-id', { required: true })
@@ -99,6 +100,9 @@ async function main(): Promise<void> {
   core.debug('Extension ID: ' + extensionId)
   core.debug('Zip file path: ' + zipPath)
   core.debug('Publish to testers only: ' + testerOnly)
+  core.debug('Client ID: ' + clientId)
+  core.debug('Client secret: ' + clientSecret)
+  core.debug('Refresh token: ' + refreshToken)
 
   try {
     await run(extensionId, zipPath, testerOnly, clientId, clientSecret, refreshToken)

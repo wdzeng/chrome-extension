@@ -7,7 +7,7 @@ inputs:
     description: (Optional) Extension ID. Leave it blank when publishing new extension.
     required: false
   zip-path:
-    description: Path to a zip file of the extension.
+    description: Path to zip file of the extension.
     required: true
   tester-only:
     description: Whether the extension is published to trusted testers only. Default to false.

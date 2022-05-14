@@ -1,6 +1,6 @@
 # Chrome Extension
 
-This action publishes your chrome extension to [Chrome Web Store](https://chrome.google.com/webstore/) using [Chrome Web Store API v1.1](https://developer.chrome.com/docs/webstore/api_index/#items).
+This action publishes your chrome extension to [Chrome Web Store](https://chrome.google.com/webstore/) using the [Chrome Web Store API v1.1](https://developer.chrome.com/docs/webstore/api_index/#items).
 
 This action can only publish new version of an existing extension. Publishing new extension is not supported.
 

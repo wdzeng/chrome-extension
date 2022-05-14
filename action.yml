@@ -4,8 +4,8 @@ author: Hyperbola
 
 inputs:
   extension-id:
-    description: (Optional) Extension ID. Leave it blank when publishing new extension.
-    required: false
+    description: Extension ID.
+    required: true
   zip-path:
     description: Path to zip file of the extension.
     required: true

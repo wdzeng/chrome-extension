@@ -1,12 +1,12 @@
 # Chrome Extension
 
-This action publishes your chrome extension to [Chrome Web Store](https://chrome.google.com/webstore/). This action uses Google's [Chrome Web Store API v1.1](https://developer.chrome.com/docs/webstore/api_index/#items).
+This action publishes your chrome extension to [Chrome Web Store](https://chrome.google.com/webstore/) using [Chrome Web Store API v1.1](https://developer.chrome.com/docs/webstore/api_index/#items).
 
-This action can only publish new version of an existing extension rather than creating and publishing a new one.
+This action can only publish new version of an existing extension. Publishing new extension is not supported.
 
 ## Prepare
 
-Following items are required before publishing your chrome extension:
+Following items are required before publishing your Chrome extension:
 
 - A zip file to be uploaded.
 - An API client ID and secret.
@@ -44,3 +44,4 @@ steps:
 - [Obtaining OAuth 2.0 access tokens](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_1)
 - [Using the Chrome Web Store Publish API](https://developer.chrome.com/docs/webstore/using_webstore_api/)
 - [Chrome Web Store API](https://developer.chrome.com/docs/webstore/api_index/)
+

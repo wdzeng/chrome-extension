@@ -3,8 +3,8 @@
   "private": true,
   "description": "Publish chrome extension to the Chrome Web Store.",
   "scripts": {
-    "build": "mkdir -p dist && tsc && ncc build dist/index.js && cp action.yml dist",
-    "clean": "rm -rf dist src/index.js"
+    "build": "tsc && ncc build dist/index.js && cp action.yml dist",
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",

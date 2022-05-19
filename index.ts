@@ -16,8 +16,11 @@ async function generateJwtToken(clientId: string, clientSecret: string, refreshT
   })
 
   const accessToken = response.data.access_token
-  core.info('Access token refreshed.')
+
   core.debug('Access token: ' + accessToken)
+  core.debug(JSON.stringify(response.data))
+  core.info('Access token refreshed.')
+
   return accessToken
 }
 
@@ -31,9 +34,7 @@ async function updateExtension(extId: string, zipPath: string, token: string): P
   const response = await axios.put(url, body, { headers, maxContentLength: Infinity })
 
   core.debug('Response status code: ' + response.status)
-  core.debug(JSON.stringify(response.headers))
   core.debug(JSON.stringify(response.data))
-
   core.info('Extension package updated.')
 }
 
@@ -49,8 +50,10 @@ async function publishExtension(extId: string, testerOnly: boolean, token: strin
     'x-goog-api-version': '2',
     'Content-Length': '0'
   }
-  await axios.post(url, null, { headers, params: { target } })
+  const response = await axios.post(url, null, { headers, params: { target } })
 
+  core.debug('Response status code: ' + response.status)
+  core.debug(JSON.stringify(response.data))
   core.info('Extension published.')
 }
 

@@ -48,7 +48,7 @@ async function updatePackage(extId: string, zipPath: string, token: string): Pro
 
   // Wait until package uploaded.
   headers = {
-    Authorization: `Bearer {$token}`,
+    Authorization: `Bearer ${token}`,
     'x-goog-api-version': '2',
     'Content-Length': '0',
     'Expect': ''

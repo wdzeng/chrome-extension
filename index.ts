@@ -1,5 +1,5 @@
 
-import fs from 'fs/promises'
+import fs from 'fs'
 import path from 'path'
 import * as core from '@actions/core'
 import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios'
@@ -38,7 +38,7 @@ async function updatePackage(extId: string, zipPath: string, token: string): Pro
   core.info('Start to update extension package.')
 
   url = `https://www.googleapis.com/upload/chromewebstore/v1.1/items/${extId}?uploadType=media`
-  const body = await fs.readFile(path.resolve(zipPath), { encoding: 'binary' })
+  const body = fs.createReadStream(path.resolve(zipPath))
   headers = { Authorization: `Bearer ${token}`, 'x-goog-api-version': '2' }
   response = await axios.put(url, body, { headers, maxContentLength: Infinity })
   uploadState = response.data.uploadState

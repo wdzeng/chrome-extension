@@ -48,3 +48,9 @@ steps:
 - [Obtaining OAuth 2.0 access tokens](https://developers.google.com/identity/protocols/oauth2/web-server#httprest_1)
 - [Using the Chrome Web Store Publish API](https://developer.chrome.com/docs/webstore/using_webstore_api/)
 - [Chrome Web Store API](https://developer.chrome.com/docs/webstore/api_index/)
+
+## Sister Actions
+
+- [Edge Add-on Action](https://github.com/wdzeng/edge-addon)
+- [Firefox Add-on Action](https://github.com/wdzeng/firefox-addon)
+

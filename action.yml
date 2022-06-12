@@ -1,0 +1,32 @@
+name: Publish Chrome Extension
+description: Upload and publish chrome extension to the Chrome Web Store
+author: Hyperbola
+
+inputs:
+  extension-id:
+    description: Extension ID.
+    required: true
+  zip-path:
+    description: Path to zip file of the extension.
+    required: true
+  tester-only:
+    description: Whether the extension is published to trusted testers only. Default to false.
+    required: false
+    default: "false"
+  client-id:
+    description: Google OAuth2 client ID.
+    required: true
+  client-secret:
+    description: Google OAuth2 client secret.
+    required: true
+  refresh-token:
+    description: Google OAuth2 refresh token.
+    required: true
+
+runs:
+  using: node16
+  main: index.js
+
+branding:
+  icon: aperture
+  color: red

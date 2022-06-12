@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension",
-  "description": "Publish chrome extension to the Chrome Web Store.",
+  "description": "Publish to the Chrome Web Store.",
   "version": "v1.0.0",
   "author": "Hyperbola",
   "private": true,

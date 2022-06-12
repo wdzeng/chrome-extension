@@ -1,16 +1,17 @@
 {
   "name": "chrome-extension",
-  "private": true,
   "description": "Publish chrome extension to the Chrome Web Store.",
-  "scripts": {
-    "build": "tsc && ncc build dist/index.js && cp action.yml dist",
-    "clean": "rm -rf dist"
-  },
+  "version": "v1.0.0",
+  "author": "Hyperbola",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wdzeng/chrome-extension"
   },
-  "author": "Hyperbola",
+  "scripts": {
+    "build": "tsc && ncc build dist/index.js && cp action.yml dist",
+    "clean": "rm -rf dist"
+  },
   "dependencies": {
     "@actions/core": "^1.8.0",
     "axios": "^0.27.2"

@@ -4,12 +4,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: wdzeng/action-of-action@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: wdzeng/action-of-action@v2

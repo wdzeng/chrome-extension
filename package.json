@@ -8,6 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/wdzeng/chrome-extension"
   },
+  "packageManager": "pnpm@7.13.4",
   "scripts": {
     "build": "tsc && ncc build dist/index.js && cp action.yml dist",
     "clean": "rm -rf dist"

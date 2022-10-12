@@ -10,8 +10,8 @@
   },
   "packageManager": "pnpm@7.13.4",
   "scripts": {
-    "build": "tsc && ncc build dist/index.js && cp action.yml dist",
-    "clean": "rm -rf dist"
+    "build": "tsc && ncc -m build out/index.js && cp action.yml dist",
+    "clean": "rm -rf dist out"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",

@@ -11,6 +11,7 @@ async function run(
   extensionId: string,
   zipPath: string,
   testerOnly: boolean,
+  uploadOnly: boolean,
   clientId: string,
   clientSecret: string,
   refreshToken: string
@@ -19,7 +20,9 @@ async function run(
 
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
   await updatePackage(extensionId, zipPath, jwtToken)
-  await publishExtension(extensionId, testerOnly, jwtToken)
+  if(!uploadOnly) { // Do we need to publish the extension?
+    await publishExtension(extensionId, testerOnly, jwtToken)
+  }
 
   core.info('Extension published successfully.')
 }
@@ -56,6 +59,7 @@ async function main(): Promise<void> {
   const extensionId = core.getInput('extension-id', { required: true })
   const zipPath = core.getInput('zip-path', { required: true })
   const testerOnly = core.getBooleanInput('tester-only')
+  const uploadOnly = core.getBooleanInput('upload-only')
   const clientId = core.getInput('client-id', { required: true })
   const clientSecret = core.getInput('client-secret', { required: true })
   const refreshToken = core.getInput('refresh-token', { required: true })
@@ -63,6 +67,7 @@ async function main(): Promise<void> {
   core.debug('Extension ID: ' + extensionId)
   core.debug('Zip file path: ' + zipPath)
   core.debug('Publish to testers only: ' + testerOnly)
+  core.debug('Upload only (no publishing): ' + uploadOnly)
   core.debug('Client ID: ' + clientId)
   core.debug('Client secret: ' + clientSecret)
   core.debug('Refresh token: ' + refreshToken)
@@ -72,6 +77,7 @@ async function main(): Promise<void> {
       extensionId,
       zipPath,
       testerOnly,
+      uploadOnly,
       clientId,
       clientSecret,
       refreshToken

@@ -1,7 +1,6 @@
 # Chrome Extension
 
 [![version](https://img.shields.io/github/v/release/wdzeng/chrome-extension)](https://github.com/wdzeng/chrome-extension/releases/latest)
-[![workflow](https://img.shields.io/github/workflow/status/wdzeng/chrome-extension/Build?label=ci&logo=github)](https://github.com/wdzeng/chrome-extension/actions)
 [![license](https://img.shields.io/github/license/wdzeng/chrome-extension?color=red)](https://github.com/wdzeng/chrome-extension/blob/main/LICENSE)
 
 This action publishes your Chrome extension to [Chrome Web Store](https://chrome.google.com/webstore/) using the [Chrome Web Store API v1.1](https://developer.chrome.com/docs/webstore/api_index/#items).

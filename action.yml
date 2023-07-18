@@ -13,6 +13,10 @@ inputs:
     description: Whether the extension is published to trusted testers only. Default to false.
     required: false
     default: "false"
+  upload-only:
+    description: Upload the extension without publishing. Default to false.
+    required: false
+    default: "false"
   client-id:
     description: Google OAuth2 client ID.
     required: true

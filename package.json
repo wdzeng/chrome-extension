@@ -19,7 +19,7 @@
     "axios": "^1.4.0"
   },
   "devDependencies": {
-    "@types/node": "^16.18.38",
+    "@types/node": "^18.16.19",
     "@vercel/ncc": "^0.36.1",
     "eslint": "^8.45.0",
     "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.3.3",

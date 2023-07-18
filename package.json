@@ -11,7 +11,8 @@
   "packageManager": "pnpm@8.6.7",
   "scripts": {
     "build": "tsc && ncc -m build out/index.js && cp action.yml dist",
-    "clean": "rm -rf dist out"
+    "clean": "rm -rf dist out",
+    "lint": "eslint --fix src"
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
@@ -20,6 +21,9 @@
   "devDependencies": {
     "@types/node": "^16.18.38",
     "@vercel/ncc": "^0.36.1",
+    "eslint": "^8.45.0",
+    "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.3.3",
+    "prettier": "^3.0.0",
     "typescript": "^5.1.6"
   }
 }

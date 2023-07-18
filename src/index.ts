@@ -1,11 +1,16 @@
+#!/usr/bin/env node
+
 import * as core from '@actions/core'
 import { AxiosError } from 'axios'
 
-import {
-  generateJwtToken,
-  publishExtension,
-  updatePackage,
-} from './chrome-store-utils'
+import { generateJwtToken, publishExtension, updatePackage } from './chrome-store-utils'
+
+function getStringOrError(responseData: unknown): string | Error {
+  if (typeof responseData === 'string' || responseData instanceof Error) {
+    return responseData
+  }
+  return JSON.stringify(responseData)
+}
 
 async function run(
   extensionId: string,
@@ -18,10 +23,18 @@ async function run(
 ): Promise<void> {
   core.info('Start to publish extension to Web Store.')
 
+  let success: boolean
+
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-  await updatePackage(extensionId, zipPath, jwtToken)
-  if (!uploadOnly) { // Do we need to publish the extension?
-    await publishExtension(extensionId, testerOnly, jwtToken)
+  success = await updatePackage(extensionId, zipPath, jwtToken)
+  if (!success) {
+    process.exit(1)
+  }
+
+  if (!uploadOnly) {
+    // Do we need to publish the extension?
+    success = await publishExtension(extensionId, testerOnly, jwtToken)
+    process.exit(1)
   }
 
   core.info('Extension published successfully.')
@@ -30,28 +43,25 @@ async function run(
 function handleError(error: unknown): void {
   core.debug(JSON.stringify(error))
 
-  // HTTP error
+  // HTTP error.
   if (error instanceof AxiosError) {
     if (error.response) {
-      // Got response from Web Store API server with status code 4XX or 5XX
-      core.setFailed(
-        'Web Store API server responses with error code: ' +
-        error.response.status
-      )
-      core.setFailed(error.response.data)
+      // Got response from Web Store API server with status code 4XX or 5XX.
+      core.setFailed(`Web Store API server responses with error code: ${error.response.status}`)
+      core.setFailed(getStringOrError(error.response.data))
     }
     core.setFailed(error.message)
     return
   }
 
-  // Unknown error
+  // Unknown error.
   if (error instanceof Error) {
     core.setFailed('Unknown error occurred.')
     core.setFailed(error)
     return
   }
 
-  // Unknown error type
+  // Unknown error type.
   core.setFailed('Unknown error occurred.')
 }
 
@@ -64,27 +74,19 @@ async function main(): Promise<void> {
   const clientSecret = core.getInput('client-secret', { required: true })
   const refreshToken = core.getInput('refresh-token', { required: true })
 
-  core.debug('Extension ID: ' + extensionId)
-  core.debug('Zip file path: ' + zipPath)
-  core.debug('Publish to testers only: ' + testerOnly)
-  core.debug('Upload only (no publishing): ' + uploadOnly)
-  core.debug('Client ID: ' + clientId)
-  core.debug('Client secret: ' + clientSecret)
-  core.debug('Refresh token: ' + refreshToken)
+  core.debug(`Extension ID: ${extensionId}`)
+  core.debug(`Zip file path: ${zipPath}`)
+  core.debug(`Publish to testers only: ${testerOnly}`)
+  core.debug(`Upload only (no publishing): ${uploadOnly}`)
+  core.debug(`Client ID: ${clientId}`)
+  core.debug(`Client secret: ${clientSecret}`)
+  core.debug(`Refresh token: ${refreshToken}`)
 
   try {
-    await run(
-      extensionId,
-      zipPath,
-      testerOnly,
-      uploadOnly,
-      clientId,
-      clientSecret,
-      refreshToken
-    )
+    await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
   } catch (e: unknown) {
     handleError(e)
   }
 }
 
-main()
+await main()

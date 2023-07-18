@@ -1,6 +1,6 @@
 name: Publish Chrome Extension
 description: GitHub action for publishing extensions to Chrome Web Store
-author: Hyperbola
+author: hyperbola
 
 inputs:
   extension-id:
@@ -11,6 +11,10 @@ inputs:
     required: true
   tester-only:
     description: Whether the extension is published to trusted testers only. Default to false.
+    required: false
+    default: "false"
+  upload-only:
+    description: Upload the extension without publishing. Default to false.
     required: false
     default: "false"
   client-id:

@@ -1,6 +1,6 @@
 name: Publish Chrome Extension
 description: GitHub action for publishing extensions to Chrome Web Store
-author: Hyperbola
+author: hyperbola
 
 inputs:
   extension-id:

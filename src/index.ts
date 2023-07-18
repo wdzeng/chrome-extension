@@ -74,14 +74,6 @@ async function main(): Promise<void> {
   const clientSecret = core.getInput('client-secret', { required: true })
   const refreshToken = core.getInput('refresh-token', { required: true })
 
-  core.debug(`Extension ID: ${extensionId}`)
-  core.debug(`Zip file path: ${zipPath}`)
-  core.debug(`Publish to testers only: ${testerOnly}`)
-  core.debug(`Upload only (no publishing): ${uploadOnly}`)
-  core.debug(`Client ID: ${clientId}`)
-  core.debug(`Client secret: ${clientSecret}`)
-  core.debug(`Refresh token: ${refreshToken}`)
-
   try {
     await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
   } catch (e: unknown) {

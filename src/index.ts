@@ -34,7 +34,9 @@ async function run(
   if (!uploadOnly) {
     // Do we need to publish the extension?
     success = await publishExtension(extensionId, testerOnly, jwtToken)
-    process.exit(1)
+    if (!success) {
+      process.exit(1)
+    }
   }
 
   core.info('Extension published successfully.')

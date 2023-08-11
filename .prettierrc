@@ -5,5 +5,7 @@
   "semi": false,
   "singleQuote": true,
   "trailingComma": "none",
+  "quoteProps": "consistent",
+  "arrowParens": "avoid",
   "endOfLine": "lf"
 }

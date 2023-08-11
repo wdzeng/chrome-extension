@@ -56,7 +56,7 @@ export async function updatePackage(
 
   url = `https://www.googleapis.com/upload/chromewebstore/v1.1/items/${extId}?uploadType=media`
   const body = fs.createReadStream(path.resolve(zipPath))
-  headers = { Authorization: `Bearer ${token}`, 'x-goog-api-version': '2' }
+  headers = { 'Authorization': `Bearer ${token}`, 'x-goog-api-version': '2' }
   response = await axios.put<ItemResponseData>(url, body, {
     headers,
     maxContentLength: Number.POSITIVE_INFINITY
@@ -68,15 +68,15 @@ export async function updatePackage(
 
   // Wait until package uploaded.
   headers = {
-    Authorization: `Bearer ${token}`,
+    'Authorization': `Bearer ${token}`,
     'Content-Length': '0',
-    Expect: '',
+    'Expect': '',
     'x-goog-api-version': '2'
   }
   url = `https://www.googleapis.com/chromewebstore/v1.1/items/${extId}?projection=DRAFT`
   while (uploadState === 'IN_PROGRESS') {
     core.info('Package is still uploading. Wait for 10 seconds.')
-    await new Promise((res) => setTimeout(res, 10000))
+    await new Promise(res => setTimeout(res, 10000))
 
     response = await axios<ItemResponseData>(url, { headers })
     uploadState = response.data.uploadState
@@ -104,7 +104,7 @@ export async function publishExtension(
   const url = `https://www.googleapis.com/chromewebstore/v1.1/items/${extId}/publish`
   const target = testerOnly ? 'trustedTesters' : 'default'
   const headers = {
-    Authorization: `Bearer ${token}`,
+    'Authorization': `Bearer ${token}`,
     'Content-Length': '0',
     'x-goog-api-version': '2'
   }

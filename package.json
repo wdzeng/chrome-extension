@@ -10,7 +10,8 @@
   },
   "packageManager": "pnpm@8.6.7",
   "scripts": {
-    "build": "tsc && ncc -m build out/index.js && cp action.yml dist",
+    "build": "pnpm clean && pnpm transpile && cp action.yml dist",
+    "transpile": "esbuild src/index.ts --platform=node --target=node16 --minify --bundle --outfile=dist/index.cjs",
     "clean": "rm -rf dist out",
     "lint": "eslint --fix src"
   },
@@ -20,7 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.16.19",
-    "@vercel/ncc": "^0.36.1",
+    "esbuild": "^0.19.0",
     "eslint": "^8.45.0",
     "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.3.3",
     "prettier": "^3.0.0",

@@ -21,10 +21,10 @@
   },
   "devDependencies": {
     "@types/node": "^18.16.19",
-    "esbuild": "^0.19.0",
-    "eslint": "^8.45.0",
-    "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.3.3",
-    "prettier": "^3.0.0",
-    "typescript": "^5.1.6"
+    "esbuild": "^0.19.2",
+    "eslint": "^8.47.0",
+    "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.4.2",
+    "prettier": "^3.0.2",
+    "typescript": "^5.2.2"
   }
 }

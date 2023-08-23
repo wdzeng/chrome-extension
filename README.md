@@ -23,19 +23,22 @@ how to generate API keys and refresh token.
 
 ## Usage
 
-Unless otherwise noted with default value, all options are required.
+Unless otherwise noted with a default value, all options are required.
 
 - `extension-id`: the id of your extension; can be referred from the url of your extension page on
   the Web Store.
 - `zip-path`: path to the zip file built in the previous steps.
-- `tester-only`: (boolean) `true` indicates publishing to testers only; default `false`.
+- `tester-only`: (boolean) `true` indicates publishing to testers only; default to `false`.
 - `upload-only`: (boolean) `true` indicates this extension will be uploaded without publishing
-  (you'll have to publish it manually); default `false`.
+  (you'll have to publish it manually); default to `false`.
 - `client-id`: your API client ID.
 - `client-secret`: your API client secret.
 - `refresh-token`: your refresh token.
+- `check-credentials-only`: (boolean) only test if given credentials are working; do not upload
+  or publish the extension; enabling this option will ignore `extension-id`, `zip-path`,
+  `tester-only` and `upload-only` and make these options optional; default to `false`.
 
-Example:
+Example of uploading and publishing an extension:
 
 ```yaml
 steps:
@@ -43,10 +46,21 @@ steps:
     with:
       extension-id: your-extension-id
       zip-path: your-extension.zip
-      tester-only: false
       client-id: ${{ secrets.CHROME_CLIENT_ID }}
       client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
       refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+```
+
+Example of testing if credentials are working:
+
+```yaml
+steps:
+  - uses: wdzeng/chrome-extension@v1
+    with:
+      client-id: ${{ secrets.CHROME_CLIENT_ID }}
+      client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+      refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      check-credentials-only: true
 ```
 
 ## References

@@ -10,7 +10,7 @@ This action publishes your Chrome extension to
 This action can only publish new version of an existing extension. Publishing new extension is not
 supported.
 
-## Prepare
+## Preparation
 
 Following items are required before publishing your Chrome extension:
 

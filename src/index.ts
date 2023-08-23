@@ -81,4 +81,4 @@ async function main(): Promise<void> {
   }
 }
 
-await main()
+void main()

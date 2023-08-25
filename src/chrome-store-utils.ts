@@ -32,8 +32,6 @@ export async function generateJwtToken(
 
   const accessToken = response.data.access_token
 
-  core.debug(`Got access token: ${accessToken}`)
-  core.debug(JSON.stringify(response.data))
   core.info('Access token refreshed.')
 
   return accessToken

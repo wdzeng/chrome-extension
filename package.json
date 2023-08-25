@@ -23,7 +23,7 @@
     "axios": "^1.4.0"
   },
   "devDependencies": {
-    "@types/node": "^18.16.19",
+    "@types/node": "^16.18.46",
     "esbuild": "^0.19.2",
     "dotenv": "^16.3.1",
     "eslint": "^8.47.0",

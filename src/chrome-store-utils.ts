@@ -9,7 +9,7 @@ import type {
   ItemResponseData,
   OAuth2TokenResponse,
   UploadState
-} from './types'
+} from '@/types'
 
 // https://developer.chrome.com/docs/webstore/using_webstore_api/
 

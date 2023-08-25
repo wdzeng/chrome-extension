@@ -86,7 +86,14 @@ export async function updatePackage(
   }
 
   core.error('Failed to update extension package.')
-  core.error(JSON.stringify(response.data))
+  if (response.data.itemError?.length) {
+    for (const errMsg of response.data.itemError) {
+      core.error(errMsg)
+    }
+  } else {
+    // If no error messages are provided then log all response data.
+    core.error(JSON.stringify(response.data))
+  }
   return false
 }
 

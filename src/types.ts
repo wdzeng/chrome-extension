@@ -14,7 +14,7 @@ export type UploadState = 'FAILURE' | 'IN_PROGRESS' | 'NOT_FOUND' | 'SUCCESS'
 // https://developer.chrome.com/docs/webstore/webstore_api/items/
 export interface ItemResponseData {
   id: string
-  itemError: unknown[]
+  itemError?: string[]
   kind: 'chromewebstore#item'
   publicKey: string | undefined
   uploadState: UploadState

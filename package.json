@@ -9,7 +9,7 @@
     "url": "git+https://github.com/wdzeng/chrome-extension"
   },
   "license": "MIT",
-  "packageManager": "pnpm@8.6.7",
+  "packageManager": "pnpm@8.6.12",
   "scripts": {
     "build": "pnpm clean && pnpm transpile && cp action.yml dist",
     "transpile": "esbuild src/index.ts --platform=node --target=node16 --minify --bundle --outfile=dist/index.cjs",

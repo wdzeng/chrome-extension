@@ -24,8 +24,8 @@ dependencies:
 
 devDependencies:
   '@types/node':
-    specifier: ^16.18.46
-    version: 16.18.46
+    specifier: ^20.5.9
+    version: 20.5.9
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -362,64 +362,64 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@nolyfill/array-includes@1.0.17:
-    resolution: {integrity: sha512-1uMdMkk3kI9REOAcJBjS0dfRfyEaCYis50/zJVaL2BfWciUXcX55/nu1voQiExVdgHJUzsJ6NzCqukXqShKyYw==}
+  /@nolyfill/array-includes@1.0.21:
+    resolution: {integrity: sha512-P+SLU5wuJmHnuo1Nhy/3l4yneHm6M+WmISz5tCVGLc0rytUBRfACmneLTryh4nlobAhUulDkBL+VoldU1g3zoA==}
     engines: {node: '>=12.4.0'}
     dependencies:
-      '@nolyfill/shared': 1.0.17
+      '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/array.prototype.findlastindex@1.0.17:
-    resolution: {integrity: sha512-Vv7XuwbfAK5rPb1p772uOTh8/AkHW+y7QZOTKjyVOdzc3mDB/cse8t3J+ZMMmCJMX+9zbqiZofyQp1XZj6YScw==}
+  /@nolyfill/array.prototype.findlastindex@1.0.21:
+    resolution: {integrity: sha512-chPKEkDdglpJjaP8WhZSlittmV+XsHFv0CmhQVWnif3mJvpxK4/oFwrszkwP4+jXyR9njKeaUIrLKuuTsL7yjw==}
     engines: {node: '>=12.4.0'}
     dependencies:
-      '@nolyfill/shared': 1.0.17
+      '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/array.prototype.flat@1.0.17:
-    resolution: {integrity: sha512-r4xxqQsip2tKWtbBcYRmK+gOtg2eKu1FZgFDGP+La6/3seGzmzcKXvEF0jni9zfSE39dcVX7ZItfWLYCNiOfMw==}
+  /@nolyfill/array.prototype.flat@1.0.21:
+    resolution: {integrity: sha512-RoyB6qmcOSuflZH+XcZAkE1aBrYIV/3qdIGk6EG1afCdZSkUUCz0PAT8h3lHdtgVh+ge82hMK2SdCur2YeNj8A==}
     engines: {node: '>=12.4.0'}
     dependencies:
-      '@nolyfill/shared': 1.0.17
+      '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/array.prototype.flatmap@1.0.17:
-    resolution: {integrity: sha512-KfgZ+yGJVXUWmeO3ek1e5pvBcxLfC5ppwicZmZUNQv7TSUDp/SdYOH0qUDW1/0kwrj9S8xDiKN195vfMiYU8Sw==}
+  /@nolyfill/array.prototype.flatmap@1.0.21:
+    resolution: {integrity: sha512-VWUiJBWk4qDgktkeQRzrtYlQdBRnEU3vfjoQxcBmdn3vSnq7ujKCBox4cdpZe9LZK9FU9Y1L4UteyW5THat2CQ==}
     engines: {node: '>=12.4.0'}
     dependencies:
-      '@nolyfill/shared': 1.0.17
+      '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/has@1.0.17:
-    resolution: {integrity: sha512-+YeHgcNs0kG0gl7YXWaYtfHaZG3Vmz4PMkSZ5pFBXCiS0l7zRShkng+es6I8T8gjuvBcNV21+Yt19ayTiC8YVA==}
+  /@nolyfill/has@1.0.21:
+    resolution: {integrity: sha512-Sf8iFaegjGp29hQVQjIc+nDR0uWqGkHsFC3jsUigFwGjpafgMaBtL++DpTU9jYAKDJEvslR1szl8qJjNGlhgcw==}
     engines: {node: '>=12.4.0'}
     dependencies:
-      '@nolyfill/shared': 1.0.17
+      '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/object.fromentries@1.0.17:
-    resolution: {integrity: sha512-NpvB949tnerOczkAOJ+bWPUg1DiEeu5Y+X/IEPbWld0akFe3YPZDIz02zUElrErjy1idL4K2m4kgiQbJ8TQ1qA==}
+  /@nolyfill/object.fromentries@1.0.21:
+    resolution: {integrity: sha512-q/uTyFipMOdMjKtAdPq0ufDN1glOa1FWqFGWApJ3CIhTbOqLz+ZypcS3h4sLhM91npP5PoTYma9RPbA4f0TrnA==}
     engines: {node: '>=12.4.0'}
     dependencies:
-      '@nolyfill/shared': 1.0.17
+      '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/object.groupby@1.0.17:
-    resolution: {integrity: sha512-LU96U/6ShdpSEfYfg3SVak8HHUySmuacUMqnZedMQMc4Tj07NIH0SFmeMn9pQxeVOxZEx1SIYamATAgz6vDncA==}
+  /@nolyfill/object.groupby@1.0.21:
+    resolution: {integrity: sha512-/2hyrFMtlNspFdhp4TaQDzPPvqKTmobYY26XAxYqB/1K0eTd3bzg1KwwgNyCtTnScrsByUhIsQ9DdS5goOCluQ==}
     engines: {node: '>=12.4.0'}
     dependencies:
-      '@nolyfill/shared': 1.0.17
+      '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/object.values@1.0.17:
-    resolution: {integrity: sha512-8w75EL9VSKmd7lmE17JQFTnCHzihgmlGdaClAGENgdihHsMoXZ0Ovw6aeDiSC1bBcq2NL1LIZhuqPOqbjIgkvQ==}
+  /@nolyfill/object.values@1.0.21:
+    resolution: {integrity: sha512-5RPPiaknXoCnpwXZTy99Oo/sNega0wf5DsYQU6YOFa1kLhvwgc4x2/Np1F8zT7WwGE9C1POH3ZIuSMelpd79Ew==}
     engines: {node: '>=12.4.0'}
     dependencies:
-      '@nolyfill/shared': 1.0.17
+      '@nolyfill/shared': 1.0.21
     dev: true
 
-  /@nolyfill/shared@1.0.17:
-    resolution: {integrity: sha512-pJgA5MKCRFBguoxLui1cyd6MI/SjXkH3JRx8G5I3WfW0ZJQYRNdE7LuzCFYW5l5HrqHHk8Ye487X28qezfTxzA==}
+  /@nolyfill/shared@1.0.21:
+    resolution: {integrity: sha512-qDc/NoaFU23E0hhiDPeUrvWzTXIPE+RbvRQtRWSeHHNmCIgYI9HS1jKzNYNJxv4jvZ/1VmM3L6rNVxbj+LBMNA==}
     dev: true
 
   /@pkgr/utils@2.4.2:
@@ -442,8 +442,8 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/node@16.18.46:
-    resolution: {integrity: sha512-Mnq3O9Xz52exs3mlxMcQuA7/9VFe/dXcrgAyfjLkABIqxXKOgBRjyazTxUbjsxDa4BP7hhPliyjVTP9RDP14xg==}
+  /@types/node@20.5.9:
+    resolution: {integrity: sha512-PcGNd//40kHAS3sTlzKB9C9XL4K0sTup8nbG5lC14kzEteTNuAFh9u5nA0o5TWnSG2r/JNPRXFVcHJIIeRlmqQ==}
     dev: true
 
   /@types/normalize-package-data@2.4.1:
@@ -1002,22 +1002,22 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 6.4.1(eslint@8.48.0)(typescript@5.2.2)
-      array-includes: /@nolyfill/array-includes@1.0.17
-      array.prototype.findlastindex: /@nolyfill/array.prototype.findlastindex@1.0.17
-      array.prototype.flat: /@nolyfill/array.prototype.flat@1.0.17
-      array.prototype.flatmap: /@nolyfill/array.prototype.flatmap@1.0.17
+      array-includes: /@nolyfill/array-includes@1.0.21
+      array.prototype.findlastindex: /@nolyfill/array.prototype.findlastindex@1.0.21
+      array.prototype.flat: /@nolyfill/array.prototype.flat@1.0.21
+      array.prototype.flatmap: /@nolyfill/array.prototype.flatmap@1.0.21
       debug: 3.2.7
       doctrine: 2.1.0
       eslint: 8.48.0
       eslint-import-resolver-node: 0.3.7
       eslint-module-utils: 2.8.0(@typescript-eslint/parser@6.4.1)(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.6.0)(eslint@8.48.0)
-      has: /@nolyfill/has@1.0.17
+      has: /@nolyfill/has@1.0.21
       is-core-module: 2.13.0
       is-glob: 4.0.3
       minimatch: 3.1.2
-      object.fromentries: /@nolyfill/object.fromentries@1.0.17
-      object.groupby: /@nolyfill/object.groupby@1.0.17
-      object.values: /@nolyfill/object.values@1.0.17
+      object.fromentries: /@nolyfill/object.fromentries@1.0.21
+      object.groupby: /@nolyfill/object.groupby@1.0.21
+      object.values: /@nolyfill/object.values@1.0.21
       semver: 6.3.1
       tsconfig-paths: 3.14.2
     transitivePeerDependencies:
@@ -1443,7 +1443,7 @@ packages:
   /is-core-module@2.13.0:
     resolution: {integrity: sha512-Z7dk6Qo8pOCp3l4tsX2C5ZVas4V+UxwQodwZhLopL91TX8UyyHEXafPcyoeeWuLrwzHcr3igO78wNLwHJHsMCQ==}
     dependencies:
-      has: /@nolyfill/has@1.0.17
+      has: /@nolyfill/has@1.0.21
     dev: true
 
   /is-docker@2.2.1:

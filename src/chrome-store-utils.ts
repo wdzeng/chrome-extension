@@ -107,7 +107,7 @@ export async function publishExtension(
   core.info('Start to publish extension.')
 
   const url = `https://www.googleapis.com/chromewebstore/v1.1/items/${extId}/publish`
-  const target = testerOnly ? 'trustedTesters' : 'default'
+  const publishTarget = testerOnly ? 'trustedTesters' : 'default'
   const headers = {
     'Authorization': `Bearer ${token}`,
     'Content-Length': '0',
@@ -115,7 +115,7 @@ export async function publishExtension(
   }
   const response = await axios.post<ItemPublishResponseData>(url, undefined, {
     headers,
-    params: { target }
+    params: { publishTarget }
   })
 
   core.debug(`Response status code: ${response.status}`)

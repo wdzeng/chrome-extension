@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "doggy",
+  "version": "1.0.0",
+  "author": "hyperbola",
+  "description": "This extension is for testing purposes only.",
+  "homepage_url": "https://github.com/wdzeng/chrome-extension",
+  "icons": {
+    "16": "/icons/icon_16x16.png",
+    "48": "/icons/icon_48x48.png",
+    "128": "/icons/icon_128x128.png"
+  }
+}

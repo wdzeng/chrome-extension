@@ -6,10 +6,16 @@ on:
       - main
       - dev
   workflow_dispatch:
+    inputs:
+      force-publish:
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   unittests:
     name: Run unittests
+    if: ${{ !github.event.inputs.force-publish }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +34,7 @@ jobs:
   publish:
     name: Publish action
     needs: unittests
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.force-publish)) && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - uses: wdzeng/action-of-action@v3

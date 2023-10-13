@@ -12,12 +12,24 @@ export interface OAuth2TokenResponse {
 export type UploadState = 'FAILURE' | 'IN_PROGRESS' | 'NOT_FOUND' | 'SUCCESS'
 
 // https://developer.chrome.com/docs/webstore/webstore_api/items/
-export interface ItemResponseData {
+export type ItemResponseData = SuccessfulItemResponseData | UnsuccessfulItemResponseData
+
+export interface SuccessfulItemResponseData {
   id: string
-  itemError?: string[]
   kind: 'chromewebstore#item'
-  publicKey: string | undefined
-  uploadState: UploadState
+  publicKey: string
+  uploadState: 'SUCCESS'
+}
+
+// The Chrome Web store returns a 200 response even if the upload fails.
+export interface UnsuccessfulItemResponseData {
+  id: string
+  itemError: {
+    error_code: string // Includes `ITEM_NOT_UPDATABLE`; not sure what other values are possible.
+    error_detail: string // Human readable error message.
+  }[]
+  kind: 'chromewebstore#item'
+  uploadState: 'FAILURE' | 'IN_PROGRESS' | 'NOT_FOUND'
 }
 
 // https://developer.chrome.com/docs/webstore/webstore_api/items/publish/

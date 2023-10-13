@@ -8,6 +8,7 @@ import type {
   ItemPublishResponseData,
   ItemResponseData,
   OAuth2TokenResponse,
+  UnsuccessfulItemResponseData,
   UploadState
 } from '@/types'
 
@@ -85,14 +86,10 @@ export async function updatePackage(
     return true
   }
 
+  const errorResponse = response.data as UnsuccessfulItemResponseData
   core.error('Failed to update extension package.')
-  if (response.data.itemError?.length) {
-    for (const errMsg of response.data.itemError) {
-      core.error(errMsg)
-    }
-  } else {
-    // If no error messages are provided then log all response data.
-    core.error(JSON.stringify(response.data))
+  for (const errMsg of errorResponse.itemError) {
+    core.error(errMsg.error_detail)
   }
   return false
 }

@@ -34,7 +34,7 @@ jobs:
   publish:
     name: Publish action
     needs: unittests
-    if: ${{ (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.force-publish)) && github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' && !failure() && !cancelled() && (github.event_name == 'push' || github.event.inputs.force-publish) }}
     runs-on: ubuntu-latest
     steps:
       - uses: wdzeng/action-of-action@v3

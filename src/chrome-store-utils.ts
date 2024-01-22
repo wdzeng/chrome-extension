@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import * as core from '@actions/core'
-import axios, { type AxiosResponse, type RawAxiosRequestHeaders } from 'axios'
+import axios from 'axios'
 
 import type {
   ItemPublishResponseData,
@@ -11,6 +11,8 @@ import type {
   UnsuccessfulItemResponseData,
   UploadState
 } from '@/types'
+
+import type { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
 
 // https://developer.chrome.com/docs/webstore/using_webstore_api/
 

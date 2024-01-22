@@ -11,9 +11,6 @@ export interface OAuth2TokenResponse {
 // https://developer.chrome.com/docs/webstore/webstore_api/items/
 export type UploadState = 'FAILURE' | 'IN_PROGRESS' | 'NOT_FOUND' | 'SUCCESS'
 
-// https://developer.chrome.com/docs/webstore/webstore_api/items/
-export type ItemResponseData = SuccessfulItemResponseData | UnsuccessfulItemResponseData
-
 export interface SuccessfulItemResponseData {
   id: string
   kind: 'chromewebstore#item'
@@ -31,6 +28,9 @@ export interface UnsuccessfulItemResponseData {
   kind: 'chromewebstore#item'
   uploadState: 'FAILURE' | 'IN_PROGRESS' | 'NOT_FOUND'
 }
+
+// https://developer.chrome.com/docs/webstore/webstore_api/items/
+export type ItemResponseData = SuccessfulItemResponseData | UnsuccessfulItemResponseData
 
 // https://developer.chrome.com/docs/webstore/webstore_api/items/publish/
 export type PublishStatus =

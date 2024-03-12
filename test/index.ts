@@ -4,6 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import * as core from '@actions/core'
+import { AxiosError } from 'axios'
 
 import { generateJwtToken, publishExtension, updatePackage } from '@/chrome-store-utils'
 import { handleError } from '@/errors'
@@ -62,7 +63,25 @@ async function main(): Promise<void> {
     if (!success) {
       process.exit(1)
     }
-    success = await publishExtension(extensionId, true, jwtToken)
+    // If the extension is under reviewing, the publish request will fail. The API does not tell the
+    // error message type, so the following validation is based on the current behavior we observed
+    // on 20240312.
+    try {
+      success = await publishExtension(extensionId, true, jwtToken)
+    } catch (e: unknown) {
+      if (e instanceof AxiosError) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        const errMessage: unknown = e.response?.data?.error?.message?.trim()
+        if (
+          errMessage ===
+          'Publish condition not met: You may not edit or publish an item that is in review.'
+        ) {
+          core.info('The extension is under review so the publish request is rejected. This is OK.')
+          process.exit(0)
+        }
+      }
+      throw e
+    }
     process.exit(success ? 0 : 1)
   } catch (e: unknown) {
     handleError(e)

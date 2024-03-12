@@ -15,8 +15,7 @@ on:
 jobs:
   unittests:
     name: Run unittests
-    # if: ${{ !github.event.inputs.force-publish }}
-    if: false
+    if: ${{ !github.event.inputs.force-publish }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

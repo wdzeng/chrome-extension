@@ -27,7 +27,7 @@ Unless otherwise noted with a default value, all options are required.
 
 - `extension-id`: the id of your extension; can be referred from the url of your extension page on
   the Web Store.
-- `zip-path`: path to the zip file built in the previous steps.
+- `zip-path`: path to the zip file built in the previous steps. May include a glob pattern (only one file must match)
 - `tester-only`: (boolean) `true` indicates publishing to testers only; default to `false`.
 - `upload-only`: (boolean) `true` indicates this extension will be uploaded without publishing
   (you'll have to publish it manually); default to `false`.

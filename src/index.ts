@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 
-import { generateJwtToken, publishExtension, updatePackage } from './chrome-store-utils'
+import { generateJwtToken, publishExtension, tryResolvePath, updatePackage } from './chrome-store-utils'
 import { handleError } from './errors'
 
 async function run(
@@ -49,11 +49,12 @@ async function main(): Promise<void> {
   }
 
   const extensionId = core.getInput('extension-id', { required: true })
-  const zipPath = core.getInput('zip-path', { required: true })
+  let zipPath = core.getInput('zip-path', { required: true })
   const testerOnly = core.getBooleanInput('tester-only')
   const uploadOnly = core.getBooleanInput('upload-only')
 
   try {
+    zipPath = tryResolvePath(zipPath)
     await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
   } catch (e: unknown) {
     handleError(e)

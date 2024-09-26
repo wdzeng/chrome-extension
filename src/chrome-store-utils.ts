@@ -13,6 +13,7 @@ import type {
 } from '@/types'
 
 import type { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
+import { globSync } from 'glob'
 
 // https://developer.chrome.com/docs/webstore/using_webstore_api/
 
@@ -131,4 +132,17 @@ export async function publishExtension(
     core.error(msg)
   }
   return false
+}
+
+export function tryResolvePath(pattern: string): string {
+  const foundFiles = globSync(pattern)
+
+  if (foundFiles.length < 1) {
+    throw new Error(`File not found: ${pattern}`)
+  }
+  if (foundFiles.length > 1) {
+    throw new Error(`Multiple files found: ${pattern}`)
+  }
+
+  return foundFiles[0]
 }

@@ -15,6 +15,7 @@
     "test": "pnpm clean && tsx -r dotenv/config test/index.ts dotenv_config_path=test/.env.local",
     "transpile:test": "esbuild test/index.ts --platform=node --target=node20 --minify --bundle --outfile=dist/test/index.cjs",
     "lint": "eslint --fix src",
+    "renew-credentials": "pnpm clean && tsx -r dotenv/config test/renew-credentials.ts dotenv_config_path=test/.env.local",
     "clean": "rm -rf dist"
   },
   "dependencies": {

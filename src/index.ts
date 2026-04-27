@@ -8,6 +8,7 @@ import {
 } from '#/chrome-store-utils'
 
 async function run(
+  publisherId: string,
   extensionId: string,
   zipPath: string,
   testerOnly: boolean,
@@ -21,20 +22,22 @@ async function run(
   let success: boolean
 
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-  success = await updatePackage(extensionId, zipPath, jwtToken)
+  success = await updatePackage(publisherId, extensionId, zipPath, jwtToken)
   if (!success) {
     throw new Error('Failed to update extension package.')
   }
 
   if (!uploadOnly) {
     // Do we need to publish the extension?
-    success = await publishExtension(extensionId, testerOnly, jwtToken)
+    success = await publishExtension(publisherId, extensionId, testerOnly, jwtToken)
     if (!success) {
       throw new Error('Failed to publish extension.')
     }
   }
 
-  core.info('Extension published successfully.')
+  core.info(
+    uploadOnly ? 'Extension upload completed successfully.' : 'Extension published successfully.'
+  )
 }
 
 async function main(): Promise<void> {
@@ -48,13 +51,23 @@ async function main(): Promise<void> {
     return
   }
 
+  const publisherId = core.getInput('publisher-id', { required: true })
   const extensionId = core.getInput('extension-id', { required: true })
   let zipPath = core.getInput('zip-path', { required: true })
   const testerOnly = core.getBooleanInput('tester-only')
   const uploadOnly = core.getBooleanInput('upload-only')
 
   zipPath = tryResolvePath(zipPath)
-  await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
+  await run(
+    publisherId,
+    extensionId,
+    zipPath,
+    testerOnly,
+    uploadOnly,
+    clientId,
+    clientSecret,
+    refreshToken
+  )
 }
 
 await main()

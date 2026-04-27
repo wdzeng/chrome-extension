@@ -48,6 +48,7 @@ function buildPackageZip(): string {
   return zipPath
 }
 
+const publisherId = requireEnvironmentVariable('TEST_PUBLISHER_ID')
 const clientId = requireEnvironmentVariable('TEST_CLIENT_ID')
 const clientSecret = requireEnvironmentVariable('TEST_CLIENT_SECRET')
 const refreshToken = requireEnvironmentVariable('TEST_REFRESH_TOKEN')
@@ -55,7 +56,7 @@ const extensionId = requireEnvironmentVariable('TEST_EXTENSION_ID')
 const zipPath = buildPackageZip()
 
 const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-let success = await updatePackage(extensionId, zipPath, jwtToken)
+let success = await updatePackage(publisherId, extensionId, zipPath, jwtToken)
 if (!success) {
   throw new Error('Failed to update extension package.')
 }
@@ -63,7 +64,7 @@ if (!success) {
 // error message type, so the following validation is based on the current behavior we observed
 // on 20240312.
 try {
-  success = await publishExtension(extensionId, true, jwtToken)
+  success = await publishExtension(publisherId, extensionId, true, jwtToken)
 } catch (e: unknown) {
   if (e instanceof AxiosError) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access

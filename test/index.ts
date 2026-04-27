@@ -50,6 +50,7 @@ function buildPackageZip(): string {
 }
 
 async function main(): Promise<void> {
+  const publisherId = requireEnvironmentVariable('TEST_PUBLISHER_ID')
   const clientId = requireEnvironmentVariable('TEST_CLIENT_ID')
   const clientSecret = requireEnvironmentVariable('TEST_CLIENT_SECRET')
   const refreshToken = requireEnvironmentVariable('TEST_REFRESH_TOKEN')
@@ -58,15 +59,15 @@ async function main(): Promise<void> {
 
   try {
     const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-    let success = await updatePackage(extensionId, zipPath, jwtToken)
+    let success = await updatePackage(publisherId, extensionId, zipPath, jwtToken)
     if (!success) {
       process.exit(1)
     }
     // If the extension is under reviewing, the publish request will fail. The API does not tell the
     // error message type, so the following validation is based on the current behavior we observed
-    // on 20240312.
+    // on 20240312 using Chrome Web Store API v1.1.
     try {
-      success = await publishExtension(extensionId, true, jwtToken)
+      success = await publishExtension(publisherId, extensionId, jwtToken)
     } catch (e: unknown) {
       if (e instanceof AxiosError) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access

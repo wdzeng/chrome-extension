@@ -5,17 +5,17 @@ import * as core from '@actions/core'
 import axios from 'axios'
 import { globSync } from 'glob'
 
-import type { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
+import type { AxiosResponse } from 'axios'
 
 import type {
+  FetchStatusResponseData,
   ItemPublishResponseData,
-  ItemResponseData,
   OAuth2TokenResponse,
-  UnsuccessfulItemResponseData,
+  UploadItemResponseData,
   UploadState
 } from '#/types'
 
-// https://developer.chrome.com/docs/webstore/using_webstore_api/
+// https://developer.chrome.com/docs/webstore/using-api
 
 export async function generateJwtToken(
   clientId: string,
@@ -23,15 +23,17 @@ export async function generateJwtToken(
   refreshToken: string
 ): Promise<string> {
   // https://developers.google.com/identity/protocols/oauth2/web-server#httprest_1
+
   core.info('Start to refresh access token.')
   const response = await axios.post<OAuth2TokenResponse>(
-    'https://www.googleapis.com/oauth2/v4/token',
-    {
+    'https://oauth2.googleapis.com/token',
+    new URLSearchParams({
       client_id: clientId,
       client_secret: clientSecret,
       grant_type: 'refresh_token',
       refresh_token: refreshToken
-    }
+    }),
+    { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
   )
 
   const accessToken = response.data.access_token
@@ -42,95 +44,93 @@ export async function generateJwtToken(
 }
 
 export async function updatePackage(
+  publisherId: string,
   extId: string,
   zipPath: string,
   token: string
 ): Promise<boolean> {
-  let url: string
-  let headers: RawAxiosRequestHeaders
-  let response: AxiosResponse<ItemResponseData>
-  let uploadState: UploadState
-
-  // https://developer.chrome.com/docs/webstore/using_webstore_api/#uploadexisitng
-  // https://developer.chrome.com/docs/webstore/using_webstore_api/#checkstatus
+  // https://developer.chrome.com/docs/webstore/using-api#uploadexisting
+  // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/media/upload
+  // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/publishers.items/fetchStatus
 
   core.info('Start to update extension package.')
 
-  url = `https://www.googleapis.com/upload/chromewebstore/v1.1/items/${extId}?uploadType=media`
+  const uploadUrl = `https://chromewebstore.googleapis.com/upload/v2/publishers/${publisherId}/items/${extId}:upload`
   const body = fs.createReadStream(path.resolve(zipPath))
-  headers = { 'Authorization': `Bearer ${token}`, 'x-goog-api-version': '2' }
-  response = await axios.put<ItemResponseData>(url, body, {
+  const headers = { Authorization: `Bearer ${token}` }
+  const uploadResponse = await axios.post<UploadItemResponseData>(uploadUrl, body, {
     headers,
     maxContentLength: Number.POSITIVE_INFINITY
   })
-  uploadState = response.data.uploadState
+  let uploadState: UploadState = uploadResponse.data.uploadState
 
-  core.debug(`Response status code: ${response.status}`)
-  core.debug(JSON.stringify(response.data))
+  core.debug(`Response status code: ${uploadResponse.status}`)
+  core.debug(JSON.stringify(uploadResponse.data))
 
   // Wait until package uploaded.
-  headers = {
-    'Authorization': `Bearer ${token}`,
-    'Content-Length': '0',
-    'Expect': '',
-    'x-goog-api-version': '2'
-  }
-  url = `https://www.googleapis.com/chromewebstore/v1.1/items/${extId}?projection=DRAFT`
+  let fetchStatusResponse: AxiosResponse<FetchStatusResponseData> | undefined
+  const fetchStatusUrl = `https://chromewebstore.googleapis.com/v2/publishers/${publisherId}/items/${extId}:fetchStatus`
   while (uploadState === 'IN_PROGRESS') {
     core.info('Package is still uploading. Wait for 10 seconds.')
     await new Promise(res => setTimeout(res, 10000))
 
-    response = await axios<ItemResponseData>(url, { headers })
-    uploadState = response.data.uploadState
+    fetchStatusResponse = await axios.get<FetchStatusResponseData>(fetchStatusUrl, { headers })
+    uploadState = fetchStatusResponse.data.lastAsyncUploadState ?? 'UPLOAD_STATE_UNSPECIFIED'
   }
 
-  if (uploadState === 'SUCCESS') {
+  if (uploadState === 'SUCCEEDED') {
     core.info('Extension package updated.')
     return true
   }
 
-  const errorResponse = response.data as UnsuccessfulItemResponseData
   core.error('Failed to update extension package.')
-  for (const errMsg of errorResponse.itemError) {
-    core.error(errMsg.error_detail)
+  if (fetchStatusResponse) {
+    const submittedState = fetchStatusResponse.data.submittedItemRevisionStatus?.state
+    if (submittedState) {
+      core.error(`Submitted revision state: ${submittedState}`)
+    }
+    if (fetchStatusResponse.data.takenDown) {
+      core.error('The item is currently taken down. Check the Developer Dashboard for details.')
+    }
+    if (fetchStatusResponse.data.warned) {
+      core.error('The item currently has an active warning in the Developer Dashboard.')
+    }
   }
+  core.error(`Upload state: ${uploadState}`)
   return false
 }
 
 export async function publishExtension(
+  publisherId: string,
   extId: string,
-  testerOnly: boolean,
   token: string
 ): Promise<boolean> {
-  // https://developer.chrome.com/docs/webstore/using_webstore_api/#publishpublic
-  // https://developer.chrome.com/docs/webstore/using_webstore_api/#trustedtesters
+  // https://developer.chrome.com/docs/webstore/using-api#publish-an-item
+  // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/publishers.items/publish
+
   core.info('Start to publish extension.')
 
-  const url = `https://www.googleapis.com/chromewebstore/v1.1/items/${extId}/publish`
-  const publishTarget = testerOnly ? 'trustedTesters' : 'default'
+  const url = `https://chromewebstore.googleapis.com/v2/publishers/${publisherId}/items/${extId}:publish`
   const headers = {
     'Authorization': `Bearer ${token}`,
-    'Content-Length': '0',
-    'x-goog-api-version': '2'
+    'Content-Length': '0'
   }
-  const response = await axios.post<ItemPublishResponseData>(url, undefined, {
-    headers,
-    params: { publishTarget }
-  })
+  const response = await axios.post<ItemPublishResponseData>(url, undefined, { headers })
 
   core.debug(`Response status code: ${response.status}`)
   core.debug(JSON.stringify(response.data))
 
-  const status = response.data.status
-  if (status.length === 1 && status[0] === 'OK') {
-    core.info('Extension published.')
+  if (
+    response.data.state === 'PENDING_REVIEW' ||
+    response.data.state === 'PUBLISHED' ||
+    response.data.state === 'PUBLISHED_TO_TESTERS' ||
+    response.data.state === 'STAGED'
+  ) {
+    core.info(`Extension publish request accepted. Current state: ${response.data.state}.`)
     return true
   }
 
-  core.error(`Failed to publish extension: ${status.join(', ')}`)
-  for (const msg of response.data.statusDetail) {
-    core.error(msg)
-  }
+  core.error(`Failed to publish extension. Current state: ${response.data.state}`)
   return false
 }
 

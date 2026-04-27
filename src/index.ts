@@ -8,59 +8,46 @@ import {
 } from '#/chrome-store-utils'
 import { handleError } from '#/errors'
 
-async function run(
-  extensionId: string,
-  zipPath: string,
-  testerOnly: boolean,
-  uploadOnly: boolean,
+async function runCheckCredentialsAction(
   clientId: string,
   clientSecret: string,
   refreshToken: string
 ): Promise<void> {
-  core.info('Start to publish extension to Web Store.')
-
-  let success: boolean
-
-  const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-  success = await updatePackage(extensionId, zipPath, jwtToken)
-  if (!success) {
-    process.exit(1)
-  }
-
-  if (!uploadOnly) {
-    // Do we need to publish the extension?
-    success = await publishExtension(extensionId, testerOnly, jwtToken)
-    if (!success) {
-      process.exit(1)
-    }
-  }
-
-  core.info('Extension published successfully.')
+  await generateJwtToken(clientId, clientSecret, refreshToken)
+  core.info('Credentials are valid.')
 }
 
 async function main(): Promise<void> {
   const clientId = core.getInput('client-id', { required: true })
   const clientSecret = core.getInput('client-secret', { required: true })
   const refreshToken = core.getInput('refresh-token', { required: true })
-
-  const checkCredentialsOnly = core.getBooleanInput('check-credentials-only')
-  if (checkCredentialsOnly) {
-    try {
-      await generateJwtToken(clientId, clientSecret, refreshToken)
-    } catch (e: unknown) {
-      handleError(e)
-    }
-    return
-  }
-
-  const extensionId = core.getInput('extension-id', { required: true })
-  let zipPath = core.getInput('zip-path', { required: true })
-  const testerOnly = core.getBooleanInput('tester-only')
-  const uploadOnly = core.getBooleanInput('upload-only')
+  const action = core.getInput('action', { required: true })
 
   try {
+    switch (action) {
+      case 'check-credentials':
+        await runCheckCredentialsAction(clientId, clientSecret, refreshToken)
+        return
+      case 'upload':
+      case 'publish':
+        break
+      default:
+        throw new Error(
+          `Invalid action: ${action}. Supported actions are: publish, upload, check-credentials.`
+        )
+    }
+
+    const publisherId = core.getInput('publisher-id', { required: true })
+    const extensionId = core.getInput('extension-id', { required: true })
+    let zipPath = core.getInput('zip-path', { required: true })
     zipPath = tryResolvePath(zipPath)
-    await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
+
+    const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
+    await updatePackage(publisherId, extensionId, zipPath, jwtToken)
+
+    if (action === 'publish') {
+      await publishExtension(publisherId, extensionId, jwtToken)
+    }
   } catch (e: unknown) {
     handleError(e)
   }

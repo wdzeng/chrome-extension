@@ -3,6 +3,9 @@ description: GitHub action for publishing extensions to Chrome Web Store
 author: hyperbola
 
 inputs:
+  publisher-id:
+    description: Chrome Web Store publisher ID.
+    required: false
   extension-id:
     description: Extension ID.
     required: false
@@ -10,7 +13,7 @@ inputs:
     description: Path to zip file of the extension.
     required: false
   tester-only:
-    description: Whether the extension is published to trusted testers only. Default to false.
+    description: Deprecated. Chrome Web Store API v2 publishes using the item's existing visibility settings from the Developer Dashboard. Default to false.
     required: false
     default: "false"
   upload-only:

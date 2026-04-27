@@ -4,6 +4,7 @@ import { generateJwtToken, publishExtension, tryResolvePath, updatePackage } fro
 import { handleError } from './errors'
 
 async function run(
+  publisherId: string,
   extensionId: string,
   zipPath: string,
   testerOnly: boolean,
@@ -17,20 +18,20 @@ async function run(
   let success: boolean
 
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-  success = await updatePackage(extensionId, zipPath, jwtToken)
+  success = await updatePackage(publisherId, extensionId, zipPath, jwtToken)
   if (!success) {
     process.exit(1)
   }
 
   if (!uploadOnly) {
     // Do we need to publish the extension?
-    success = await publishExtension(extensionId, testerOnly, jwtToken)
+    success = await publishExtension(publisherId, extensionId, testerOnly, jwtToken)
     if (!success) {
       process.exit(1)
     }
   }
 
-  core.info('Extension published successfully.')
+  core.info(uploadOnly ? 'Extension upload completed successfully.' : 'Extension published successfully.')
 }
 
 async function main(): Promise<void> {
@@ -48,6 +49,7 @@ async function main(): Promise<void> {
     return
   }
 
+  const publisherId = core.getInput('publisher-id', { required: true })
   const extensionId = core.getInput('extension-id', { required: true })
   let zipPath = core.getInput('zip-path', { required: true })
   const testerOnly = core.getBooleanInput('tester-only')
@@ -55,7 +57,16 @@ async function main(): Promise<void> {
 
   try {
     zipPath = tryResolvePath(zipPath)
-    await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
+    await run(
+      publisherId,
+      extensionId,
+      zipPath,
+      testerOnly,
+      uploadOnly,
+      clientId,
+      clientSecret,
+      refreshToken
+    )
   } catch (e: unknown) {
     handleError(e)
   }

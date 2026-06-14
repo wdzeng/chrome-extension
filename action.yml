@@ -3,20 +3,15 @@ description: GitHub action for publishing extensions to Chrome Web Store
 author: hyperbola
 
 inputs:
+  publisher-id:
+    description: Chrome Web Store publisher ID.
+    required: false
   extension-id:
     description: Extension ID.
     required: false
   zip-path:
     description: Path to zip file of the extension.
     required: false
-  tester-only:
-    description: Whether the extension is published to trusted testers only. Default to false.
-    required: false
-    default: "false"
-  upload-only:
-    description: Upload the extension without publishing. Default to false.
-    required: false
-    default: "false"
   client-id:
     description: Google OAuth2 client ID.
     required: true
@@ -26,10 +21,10 @@ inputs:
   refresh-token:
     description: Google OAuth2 refresh token.
     required: true
-  check-credentials-only:
-    description: Check if the credentials are valid. Default to false.
+  action:
+    description: Action to perform; one of `publish` (default), `upload`, or `check-credentials`.
     required: false
-    default: "false"
+    default: publish
 
 runs:
   using: node24

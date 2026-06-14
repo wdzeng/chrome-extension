@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url'
 import * as core from '@actions/core'
 import { AxiosError } from 'axios'
 
-import { generateJwtToken, publishExtension, uploadExtension } from '#/chrome-store-utils'
+import { publishExtension, uploadExtension } from '#/chrome-web-store/utils'
+import { generateJwtToken } from '#/oauth'
 
 function requireEnvironmentVariable(key: string): string {
   const value = process.env[key]

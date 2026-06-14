@@ -1,12 +1,3 @@
-// https://developer.chrome.com/docs/webstore/using-api#refresh_your_access_token
-export interface OAuth2TokenResponse {
-  access_token: string
-  expires_in: number
-  refresh_token: string
-  scope: string
-  token_type: 'Bearer'
-}
-
 // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/UploadState
 export type UploadState =
   | 'FAILED'

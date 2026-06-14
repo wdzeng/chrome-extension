@@ -1,4 +1,4 @@
-import { generateJwtToken } from '#/chrome-store-utils'
+import { generateJwtToken } from '#/oauth'
 
 function requireEnvironmentVariable(key: string): string {
   const value = process.env[key]

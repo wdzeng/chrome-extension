@@ -27,6 +27,7 @@ jobs:
           version: ^11.6.0
           run_install: true
       - env:
+          TEST_PUBLISHER_ID: ${{ secrets.TEST_PUBLISHER_ID }}
           TEST_CLIENT_ID: ${{ secrets.TEST_CLIENT_ID }}
           TEST_CLIENT_SECRET: ${{ secrets.TEST_CLIENT_SECRET }}
           TEST_REFRESH_TOKEN: ${{ secrets.TEST_REFRESH_TOKEN }}

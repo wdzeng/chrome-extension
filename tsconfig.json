@@ -6,13 +6,12 @@
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "lib": ["ES2022"],
-    "baseUrl": "./",
     // Completeness and emit options.
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
     // Type checking options.
-    "strict": true,
-    "alwaysStrict": true,
+    "types": ["node"],
+    "strict": true
   },
   "include": ["src/**/*.ts", "test/**/*.ts"]
 }

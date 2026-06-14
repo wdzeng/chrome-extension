@@ -26,15 +26,15 @@ generate API keys, refresh token, and locate your publisher ID.
 
 Unless otherwise noted with a default value, all options are required.
 
-- `publisher-id`: your Chrome Web Store publisher ID, available in the Developer Dashboard account
-  section.
 - `extension-id`: the id of your extension; can be referred from the url of your extension page on
   the Web Store.
 - `zip-path`: path to the zip file built in the previous steps. May include a glob pattern (only one
   file must match)
+- `publisher-id`: your Chrome Web Store publisher ID, available in the Developer Dashboard account
+  section.
 - `client-id`: your API client ID.
 - `client-secret`: your API client secret.
-- `refresh-token`: your refresh token.
+- `refresh-token`: your API refresh token.
 - `action`: one of:
   - `publish` (default): to upload and publish the extension.
   - `upload`: to upload the extension but not to publish.
@@ -45,25 +45,25 @@ Example of uploading and publishing an extension:
 
 ```yaml
 steps:
-  - uses: wdzeng/chrome-extension@v1
+  - uses: wdzeng/chrome-extension@v2
     with:
-      publisher-id: your-publisher-id
       extension-id: your-extension-id
       zip-path: your-extension.zip
-      client-id: ${{ secrets.CHROME_CLIENT_ID }}
-      client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-      refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      publisher-id: ${{ secrets.PUBLISHER_ID }}
+      client-id: ${{ secrets.CLIENT_ID }}
+      client-secret: ${{ secrets.CLIENT_SECRET }}
+      refresh-token: ${{ secrets.REFRESH_TOKEN }}
 ```
 
 Example of testing if credentials are working:
 
 ```yaml
 steps:
-  - uses: wdzeng/chrome-extension@v1
+  - uses: wdzeng/chrome-extension@v2
     with:
-      client-id: ${{ secrets.CHROME_CLIENT_ID }}
-      client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-      refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      client-id: ${{ secrets.CLIENT_ID }}
+      client-secret: ${{ secrets.CLIENT_SECRET }}
+      refresh-token: ${{ secrets.REFRESH_TOKEN }}
       action: check-credentials
 ```
 

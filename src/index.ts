@@ -11,7 +11,6 @@ async function run(
   publisherId: string,
   extensionId: string,
   zipPath: string,
-  testerOnly: boolean,
   uploadOnly: boolean,
   clientId: string,
   clientSecret: string,
@@ -29,7 +28,7 @@ async function run(
 
   if (!uploadOnly) {
     // Do we need to publish the extension?
-    success = await publishExtension(publisherId, extensionId, testerOnly, jwtToken)
+    success = await publishExtension(publisherId, extensionId, jwtToken)
     if (!success) {
       throw new Error('Failed to publish extension.')
     }
@@ -54,20 +53,10 @@ async function main(): Promise<void> {
   const publisherId = core.getInput('publisher-id', { required: true })
   const extensionId = core.getInput('extension-id', { required: true })
   let zipPath = core.getInput('zip-path', { required: true })
-  const testerOnly = core.getBooleanInput('tester-only')
   const uploadOnly = core.getBooleanInput('upload-only')
 
   zipPath = tryResolvePath(zipPath)
-  await run(
-    publisherId,
-    extensionId,
-    zipPath,
-    testerOnly,
-    uploadOnly,
-    clientId,
-    clientSecret,
-    refreshToken
-  )
+  await run(publisherId, extensionId, zipPath, uploadOnly, clientId, clientSecret, refreshToken)
 }
 
 await main()

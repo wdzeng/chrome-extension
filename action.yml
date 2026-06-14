@@ -12,10 +12,6 @@ inputs:
   zip-path:
     description: Path to zip file of the extension.
     required: false
-  tester-only:
-    description: Deprecated. Chrome Web Store API v2 publishes using the item's existing visibility settings from the Developer Dashboard. Default to false.
-    required: false
-    default: "false"
   upload-only:
     description: Upload the extension without publishing. Default to false.
     required: false

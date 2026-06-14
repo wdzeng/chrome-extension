@@ -103,18 +103,12 @@ export async function uploadExtension(
 export async function publishExtension(
   publisherId: string,
   extId: string,
-  testerOnly: boolean,
   token: string
 ): Promise<boolean> {
   // https://developer.chrome.com/docs/webstore/using-api#publish-an-item
   // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/publishers.items/publish
 
   core.info('Start to publish extension.')
-  if (testerOnly) {
-    core.warning(
-      'The Chrome Web Store API v2 no longer supports selecting trusted testers via request parameter. The item will publish using its existing visibility settings from the Developer Dashboard.'
-    )
-  }
 
   const url = `https://chromewebstore.googleapis.com/v2/publishers/${publisherId}/items/${extId}:publish`
   const headers = {

@@ -32,17 +32,14 @@ Unless otherwise noted with a default value, all options are required.
   the Web Store.
 - `zip-path`: path to the zip file built in the previous steps. May include a glob pattern (only one
   file must match)
-- `tester-only`: (boolean) deprecated in v2. The API now publishes using the existing visibility
-  settings configured in the Developer Dashboard; default to `false`.
 - `upload-only`: (boolean) `true` indicates this extension will be uploaded without publishing
   (you'll have to publish it manually); default to `false`.
 - `client-id`: your API client ID.
 - `client-secret`: your API client secret.
 - `refresh-token`: your refresh token.
-- `check-credentials-only`: (boolean) only test if given credentials are working; do not upload
-  or publish the extension; enabling this option will ignore `extension-id`, `zip-path`,
-  `tester-only`, `upload-only`, and `publisher-id` and make these options optional; default to
-  `false`.
+- `check-credentials-only`: (boolean) only test if given credentials are working; do not upload or
+  publish the extension; enabling this option will ignore `extension-id`, `zip-path`, `upload-only`,
+  and `publisher-id` and make these options optional; default to `false`.
 
 Example of uploading and publishing an extension:
 

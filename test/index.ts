@@ -64,7 +64,7 @@ if (!success) {
 // error message type, so the following validation is based on the current behavior we observed
 // on 20240312.
 try {
-  success = await publishExtension(publisherId, extensionId, true, jwtToken)
+  success = await publishExtension(publisherId, extensionId, jwtToken)
 } catch (e: unknown) {
   if (e instanceof AxiosError) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access

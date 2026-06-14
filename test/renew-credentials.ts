@@ -1,5 +1,5 @@
-import { generateJwtToken } from '@/chrome-store-utils'
-import { handleError } from '@/errors'
+import { generateJwtToken } from '#/chrome-store-utils'
+import { handleError } from '#/errors'
 
 function requireEnvironmentVariable(key: string): string {
   const value = process.env[key]
@@ -15,7 +15,7 @@ const refreshToken = requireEnvironmentVariable('TEST_REFRESH_TOKEN')
 
 async function main(): Promise<void> {
   try {
-  await generateJwtToken(clientId, clientSecret, refreshToken)
+    await generateJwtToken(clientId, clientSecret, refreshToken)
   } catch (error) {
     handleError(error)
   }

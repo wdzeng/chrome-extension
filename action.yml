@@ -33,7 +33,7 @@ inputs:
 
 runs:
   using: node24
-  main: index.cjs
+  main: src/index.ts
 
 branding:
   icon: aperture

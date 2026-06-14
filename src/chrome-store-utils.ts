@@ -3,6 +3,9 @@ import path from 'node:path'
 
 import * as core from '@actions/core'
 import axios from 'axios'
+import { globSync } from 'glob'
+
+import type { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
 
 import type {
   ItemPublishResponseData,
@@ -10,10 +13,7 @@ import type {
   OAuth2TokenResponse,
   UnsuccessfulItemResponseData,
   UploadState
-} from '@/types'
-
-import type { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
-import { globSync } from 'glob'
+} from '#/types'
 
 // https://developer.chrome.com/docs/webstore/using_webstore_api/
 

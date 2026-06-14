@@ -1,21 +1,24 @@
 {
+  "include": ["src/**/*.ts", "test/**/*.ts"],
   "compilerOptions": {
-    // Environment and module options.
-    "target": "es2022",
-    "module": "es2022",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "lib": ["ES2022"],
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    // Completeness and emit options.
+    "lib": ["ESNext"],
+    "target": "esnext",
+    "types": ["node"],
+
+    "noEmit": true,
+    "module": "nodenext",
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
     "skipLibCheck": true,
+
     "verbatimModuleSyntax": true,
-    // Type checking options.
+    "erasableSyntaxOnly": true,
+
+    "allowJs": false,
+
     "strict": true,
-    "alwaysStrict": true,
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true
+  }
 }

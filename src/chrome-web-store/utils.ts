@@ -9,38 +9,11 @@ import type { AxiosResponse } from 'axios'
 import type {
   FetchStatusResponseData,
   ItemPublishResponseData,
-  OAuth2TokenResponse,
   UploadItemResponseData,
   UploadState
-} from '#/types'
+} from '#/chrome-web-store/types'
 
 // https://developer.chrome.com/docs/webstore/using-api
-
-export async function generateJwtToken(
-  clientId: string,
-  clientSecret: string,
-  refreshToken: string
-): Promise<string> {
-  // https://developers.google.com/identity/protocols/oauth2/web-server#httprest_1
-
-  core.info('Start to refresh access token.')
-  const response = await axios.post<OAuth2TokenResponse>(
-    'https://oauth2.googleapis.com/token',
-    new URLSearchParams({
-      client_id: clientId,
-      client_secret: clientSecret,
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken
-    }),
-    { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-  )
-
-  const accessToken = response.data.access_token
-
-  core.info('Access token refreshed.')
-
-  return accessToken
-}
 
 export async function uploadExtension(
   publisherId: string,

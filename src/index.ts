@@ -1,7 +1,8 @@
 import * as core from '@actions/core'
 
-import { generateJwtToken, publishExtension, uploadExtension } from '#/chrome-store-utils'
+import { publishExtension, uploadExtension } from '#/chrome-web-store/utils'
 import { handleError } from '#/errors'
+import { generateJwtToken } from '#/oauth'
 import { globFile } from '#/utils'
 
 async function runCheckCredentialsAction(

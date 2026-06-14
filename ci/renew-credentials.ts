@@ -1,5 +1,5 @@
-import { generateJwtToken } from '#/chrome-store-utils'
 import { handleError } from '#/errors'
+import { generateJwtToken } from '#/oauth'
 import { requireEnvironmentVariable } from '#/utils'
 
 const clientId = requireEnvironmentVariable('TEST_CLIENT_ID')

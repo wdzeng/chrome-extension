@@ -6,8 +6,9 @@ import { fileURLToPath } from 'node:url'
 import * as core from '@actions/core'
 import { AxiosError } from 'axios'
 
-import { generateJwtToken, publishExtension, uploadExtension } from '#/chrome-store-utils'
+import { publishExtension, uploadExtension } from '#/chrome-web-store/utils'
 import { handleError } from '#/errors'
+import { generateJwtToken } from '#/oauth'
 import { requireEnvironmentVariable } from '#/utils'
 
 function buildPackageZip(): string {

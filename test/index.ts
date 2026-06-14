@@ -6,8 +6,8 @@ import { fileURLToPath } from 'node:url'
 import * as core from '@actions/core'
 import { AxiosError } from 'axios'
 
-import { generateJwtToken, publishExtension, updatePackage } from '@/chrome-store-utils'
-import { handleError } from '@/errors'
+import { generateJwtToken, publishExtension, updatePackage } from '#/chrome-store-utils'
+import { handleError } from '#/errors'
 
 function requireEnvironmentVariable(key: string): string {
   const value = process.env[key]

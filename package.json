@@ -9,6 +9,9 @@
     "url": "git+https://github.com/wdzeng/chrome-extension"
   },
   "license": "MIT",
+  "imports": {
+    "#/*": "./src/*.ts"
+  },
   "scripts": {
     "build": "pnpm clean && pnpm transpile && cp action.yml dist",
     "transpile": "esbuild src/index.ts --platform=node --target=node24 --minify --bundle --outfile=dist/index.cjs",

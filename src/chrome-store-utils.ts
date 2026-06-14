@@ -10,7 +10,7 @@ import type {
   OAuth2TokenResponse,
   UnsuccessfulItemResponseData,
   UploadState
-} from '@/types'
+} from '#/types'
 
 import type { AxiosResponse, RawAxiosRequestHeaders } from 'axios'
 import { globSync } from 'glob'

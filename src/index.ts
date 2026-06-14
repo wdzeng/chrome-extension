@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 
-import { generateJwtToken, publishExtension, tryResolvePath, updatePackage } from './chrome-store-utils'
-import { handleError } from './errors'
+import { generateJwtToken, publishExtension, tryResolvePath, updatePackage } from '#/chrome-store-utils'
+import { handleError } from '#/errors'
 
 async function run(
   extensionId: string,

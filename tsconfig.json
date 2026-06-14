@@ -7,9 +7,6 @@
     "esModuleInterop": true,
     "lib": ["ES2022"],
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    },
     // Completeness and emit options.
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,

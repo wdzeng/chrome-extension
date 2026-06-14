@@ -82,7 +82,7 @@ async function main() {
 
   // If the extension is under reviewing, the publish request will fail. The API does not tell the
   // error message type, so the following validation is based on the current behavior we observed
-  // on 20240312.
+  // on 20240312 using Chrome Web Store v1 API.
   try {
     await publishExtension(publisherId, extensionId, jwtToken)
   } catch (e: unknown) {

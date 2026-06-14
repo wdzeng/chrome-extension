@@ -15,20 +15,12 @@ async function run(
 ): Promise<void> {
   core.info('Start to publish extension to Web Store.')
 
-  let success: boolean
-
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-  success = await uploadExtension(publisherId, extensionId, zipPath, jwtToken)
-  if (!success) {
-    throw new Error('Failed to update extension package.')
-  }
+  await uploadExtension(publisherId, extensionId, zipPath, jwtToken)
 
   if (!uploadOnly) {
     // Do we need to publish the extension?
-    success = await publishExtension(publisherId, extensionId, jwtToken)
-    if (!success) {
-      throw new Error('Failed to publish extension.')
-    }
+    await publishExtension(publisherId, extensionId, jwtToken)
   }
 
   core.info(

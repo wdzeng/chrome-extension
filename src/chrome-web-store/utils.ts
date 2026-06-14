@@ -21,10 +21,9 @@ export async function uploadExtension(
   extId: string,
   zipPath: string,
   token: string
-): Promise<boolean> {
+): Promise<void> {
   // https://developer.chrome.com/docs/webstore/using-api#uploadexisting
   // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/media/upload
-  // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/publishers.items/fetchStatus
 
   core.info('Start to upload extension package.')
 
@@ -35,14 +34,27 @@ export async function uploadExtension(
     headers,
     maxContentLength: Number.POSITIVE_INFINITY
   })
-  let uploadState: UploadState = uploadResponse.data.uploadState
 
   core.debug(`Response status code: ${uploadResponse.status}`)
   core.debug(JSON.stringify(uploadResponse.data))
 
-  // Wait until package uploaded.
-  let fetchStatusResponse: AxiosResponse<FetchStatusResponseData> | undefined
+  const uploadState: UploadState = uploadResponse.data.uploadState
+  await waitUntilExtensionUploaded(publisherId, extId, token, uploadState)
+}
+
+async function waitUntilExtensionUploaded(
+  publisherId: string,
+  extId: string,
+  token: string,
+  initialUploadState: UploadState
+): Promise<void> {
+  // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/publishers.items/fetchStatus
+
+  let uploadState: UploadState = initialUploadState
+
   const fetchStatusUrl = `https://chromewebstore.googleapis.com/v2/publishers/${publisherId}/items/${extId}:fetchStatus`
+  const headers = { Authorization: `Bearer ${token}` }
+  let fetchStatusResponse: AxiosResponse<FetchStatusResponseData> | undefined
   while (uploadState === 'IN_PROGRESS') {
     core.info('Package is still uploading. Wait for 10 seconds.')
     await delay(10000) // 10s
@@ -52,10 +64,9 @@ export async function uploadExtension(
 
   if (uploadState === 'SUCCEEDED') {
     core.info('Extension package uploaded.')
-    return true
+    return
   }
 
-  core.error('Failed to upload extension package.')
   if (fetchStatusResponse) {
     const submittedState = fetchStatusResponse.data.submittedItemRevisionStatus?.state
     if (submittedState) {
@@ -68,15 +79,22 @@ export async function uploadExtension(
       core.error('The item currently has an active warning in the Developer Dashboard.')
     }
   }
-  core.error(`Upload state: ${uploadState}`)
-  return false
+
+  switch (uploadState) {
+    case 'FAILED':
+      throw new Error('Extension package upload failed.')
+    case 'NOT_FOUND':
+      throw new Error('Extension not found. Check the item ID and try again.')
+    default:
+      throw new Error('Unexpected upload state: ${uploadState}')
+  }
 }
 
 export async function publishExtension(
   publisherId: string,
   extId: string,
   token: string
-): Promise<boolean> {
+): Promise<void> {
   // https://developer.chrome.com/docs/webstore/using-api#publish-an-item
   // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/publishers.items/publish
 
@@ -92,16 +110,26 @@ export async function publishExtension(
   core.debug(`Response status code: ${response.status}`)
   core.debug(JSON.stringify(response.data))
 
-  if (
-    response.data.state === 'PENDING_REVIEW' ||
-    response.data.state === 'PUBLISHED' ||
-    response.data.state === 'PUBLISHED_TO_TESTERS' ||
-    response.data.state === 'STAGED'
-  ) {
-    core.info(`Extension publish request accepted. Current state: ${response.data.state}.`)
-    return true
+  switch (response.data.state) {
+    case 'PENDING_REVIEW':
+      core.info('Extension is pending review. It will be published after review passed.')
+      return
+    case 'PUBLISHED':
+      core.info('Extension is published to all users.')
+      return
+    case 'PUBLISHED_TO_TESTERS':
+      core.info('Extension is published to testers.')
+      return
+    case 'STAGED':
+      core.info('Extension has been approved and is ready to be published.')
+      return
+    case 'REJECTED':
+      throw new Error('Extension is rejected. Check the Developer Dashboard for details.')
+    case 'CANCELLED':
+      throw new Error(
+        'Extension submission is cancelled. Check the Developer Dashboard for details.'
+      )
+    default:
+      throw new Error(`Unexpected extension state: ${response.data.state}`)
   }
-
-  core.error(`Failed to publish extension. Current state: ${response.data.state}`)
-  return false
 }

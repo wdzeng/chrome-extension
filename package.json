@@ -25,11 +25,15 @@
     "glob": "^13.0.6"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
     "@types/node": "^24.13.1",
+    "@types/tmp": "^0.2.6",
+    "adm-zip": "^0.5.17",
     "dotenv": "^17.4.2",
     "eslint": "^10.4.1",
     "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.16.0",
     "prettier": "^3.8.3",
+    "tmp": "^0.2.7",
     "typescript": "^6.0.3"
   },
   "engines": {

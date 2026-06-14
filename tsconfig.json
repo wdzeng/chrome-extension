@@ -9,9 +9,10 @@
     // Completeness and emit options.
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     // Type checking options.
     "types": ["node"],
     "strict": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "ci/**/*.ts"],
 }

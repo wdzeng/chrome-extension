@@ -13,20 +13,21 @@ on:
         default: false
 
 jobs:
-  unittests:
-    name: Run unittests
+  tests:
+    name: Run tests
     if: ${{ !github.event.inputs.force-publish }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: '24'
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v6
         with:
-          version: ^8.14.2
+          version: ^11.6.0
           run_install: true
       - env:
+          TEST_PUBLISHER_ID: ${{ secrets.TEST_PUBLISHER_ID }}
           TEST_CLIENT_ID: ${{ secrets.TEST_CLIENT_ID }}
           TEST_CLIENT_SECRET: ${{ secrets.TEST_CLIENT_SECRET }}
           TEST_REFRESH_TOKEN: ${{ secrets.TEST_REFRESH_TOKEN }}
@@ -34,8 +35,10 @@ jobs:
         run: pnpm test
   publish:
     name: Publish action
-    needs: unittests
-    if: ${{ github.ref == 'refs/heads/main' && !failure() && !cancelled() && (github.event_name == 'push' || github.event.inputs.force-publish) }}
+    # On pushing the main branch, publish the action only if tests passes or force-publish is set.
+    # On non-main branches, never publish the action.
+    needs: tests
+    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event.inputs.force-publish) }}
     runs-on: ubuntu-latest
     steps:
       - uses: wdzeng/action-of-action@v3

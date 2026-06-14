@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import * as core from '@actions/core'
 import { AxiosError } from 'axios'
 
-import { generateJwtToken, publishExtension, updatePackage } from '#/chrome-store-utils'
+import { generateJwtToken, publishExtension, uploadExtension } from '#/chrome-store-utils'
 
 function requireEnvironmentVariable(key: string): string {
   const value = process.env[key]
@@ -56,7 +56,7 @@ const extensionId = requireEnvironmentVariable('TEST_EXTENSION_ID')
 const zipPath = buildPackageZip()
 
 const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-let success = await updatePackage(publisherId, extensionId, zipPath, jwtToken)
+let success = await uploadExtension(publisherId, extensionId, zipPath, jwtToken)
 if (!success) {
   throw new Error('Failed to update extension package.')
 }

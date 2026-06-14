@@ -4,7 +4,7 @@ import {
   generateJwtToken,
   publishExtension,
   tryResolvePath,
-  updatePackage
+  uploadExtension
 } from '#/chrome-store-utils'
 
 async function run(
@@ -22,7 +22,7 @@ async function run(
   let success: boolean
 
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-  success = await updatePackage(publisherId, extensionId, zipPath, jwtToken)
+  success = await uploadExtension(publisherId, extensionId, zipPath, jwtToken)
   if (!success) {
     throw new Error('Failed to update extension package.')
   }

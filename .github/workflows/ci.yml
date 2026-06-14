@@ -9,7 +9,7 @@ on:
       - 'src/**'
   workflow_dispatch:
     inputs:
-      force-publish:
+      skip-tests:
         type: boolean
         required: false
         default: false
@@ -17,7 +17,7 @@ on:
 jobs:
   tests:
     name: Run tests
-    if: ${{ !github.event.inputs.force-publish }}
+    if: ${{ github.event.inputs.skip-tests != 'false' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { setTimeout as delay } from 'node:timers/promises'
 
 import * as core from '@actions/core'
 import axios from 'axios'
@@ -44,8 +45,7 @@ export async function uploadExtension(
   const fetchStatusUrl = `https://chromewebstore.googleapis.com/v2/publishers/${publisherId}/items/${extId}:fetchStatus`
   while (uploadState === 'IN_PROGRESS') {
     core.info('Package is still uploading. Wait for 10 seconds.')
-    await new Promise(res => setTimeout(res, 10000))
-
+    await delay(10000) // 10s
     fetchStatusResponse = await axios.get<FetchStatusResponseData>(fetchStatusUrl, { headers })
     uploadState = fetchStatusResponse.data.lastAsyncUploadState ?? 'UPLOAD_STATE_UNSPECIFIED'
   }

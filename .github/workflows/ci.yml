@@ -18,13 +18,13 @@ jobs:
     if: ${{ !github.event.inputs.force-publish }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: '24'
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v6
         with:
-          version: ^8.14.2
+          version: ^11.6.0
           run_install: true
       - env:
           TEST_CLIENT_ID: ${{ secrets.TEST_CLIENT_ID }}
@@ -32,10 +32,3 @@ jobs:
           TEST_REFRESH_TOKEN: ${{ secrets.TEST_REFRESH_TOKEN }}
           TEST_EXTENSION_ID: ${{ secrets.TEST_EXTENSION_ID }}
         run: pnpm test
-  publish:
-    name: Publish action
-    needs: tests
-    if: ${{ github.ref == 'refs/heads/main' && !failure() && !cancelled() && (github.event_name == 'push' || github.event.inputs.force-publish) }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: wdzeng/action-of-action@v3

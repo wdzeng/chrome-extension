@@ -13,12 +13,8 @@ const clientId = requireEnvironmentVariable('TEST_CLIENT_ID')
 const clientSecret = requireEnvironmentVariable('TEST_CLIENT_SECRET')
 const refreshToken = requireEnvironmentVariable('TEST_REFRESH_TOKEN')
 
-async function main(): Promise<void> {
-  try {
-    await generateJwtToken(clientId, clientSecret, refreshToken)
-  } catch (error) {
-    handleError(error)
-  }
+try {
+  await generateJwtToken(clientId, clientSecret, refreshToken)
+} catch (error) {
+  handleError(error)
 }
-
-void main()

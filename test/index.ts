@@ -7,7 +7,6 @@ import * as core from '@actions/core'
 import { AxiosError } from 'axios'
 
 import { generateJwtToken, publishExtension, updatePackage } from '#/chrome-store-utils'
-import { handleError } from '#/errors'
 
 function requireEnvironmentVariable(key: string): string {
   const value = process.env[key]
@@ -49,43 +48,40 @@ function buildPackageZip(): string {
   return zipPath
 }
 
-async function main(): Promise<void> {
-  const clientId = requireEnvironmentVariable('TEST_CLIENT_ID')
-  const clientSecret = requireEnvironmentVariable('TEST_CLIENT_SECRET')
-  const refreshToken = requireEnvironmentVariable('TEST_REFRESH_TOKEN')
-  const extensionId = requireEnvironmentVariable('TEST_EXTENSION_ID')
-  const zipPath = buildPackageZip()
+const clientId = requireEnvironmentVariable('TEST_CLIENT_ID')
+const clientSecret = requireEnvironmentVariable('TEST_CLIENT_SECRET')
+const refreshToken = requireEnvironmentVariable('TEST_REFRESH_TOKEN')
+const extensionId = requireEnvironmentVariable('TEST_EXTENSION_ID')
+const zipPath = buildPackageZip()
 
-  try {
-    const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-    let success = await updatePackage(extensionId, zipPath, jwtToken)
-    if (!success) {
-      process.exit(1)
+const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
+let success = await updatePackage(extensionId, zipPath, jwtToken)
+if (!success) {
+  throw new Error('Failed to update extension package.')
+}
+// If the extension is under reviewing, the publish request will fail. The API does not tell the
+// error message type, so the following validation is based on the current behavior we observed
+// on 20240312.
+try {
+  success = await publishExtension(extensionId, true, jwtToken)
+} catch (e: unknown) {
+  if (e instanceof AxiosError) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const errMessage: unknown = e.response?.data?.error?.message?.trim()
+    if (
+      errMessage ===
+      'Publish condition not met: You may not edit or publish an item that is in review.'
+    ) {
+      core.info('The extension is under review so the publish request is rejected. This is OK.')
+      success = true
     }
-    // If the extension is under reviewing, the publish request will fail. The API does not tell the
-    // error message type, so the following validation is based on the current behavior we observed
-    // on 20240312.
-    try {
-      success = await publishExtension(extensionId, true, jwtToken)
-    } catch (e: unknown) {
-      if (e instanceof AxiosError) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-        const errMessage: unknown = e.response?.data?.error?.message?.trim()
-        if (
-          errMessage ===
-          'Publish condition not met: You may not edit or publish an item that is in review.'
-        ) {
-          core.info('The extension is under review so the publish request is rejected. This is OK.')
-          process.exit(0)
-        }
-      }
-      throw e
-    }
-    process.exit(success ? 0 : 1)
-  } catch (e: unknown) {
-    handleError(e)
-    process.exit(2)
+  }
+
+  if (!success) {
+    throw e
   }
 }
 
-void main()
+if (!success) {
+  throw new Error('Failed to publish extension.')
+}

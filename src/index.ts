@@ -24,46 +24,42 @@ async function run(
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
   success = await updatePackage(extensionId, zipPath, jwtToken)
   if (!success) {
-    process.exit(1)
+    throw new Error('Failed to update extension package.')
   }
 
   if (!uploadOnly) {
     // Do we need to publish the extension?
     success = await publishExtension(extensionId, testerOnly, jwtToken)
     if (!success) {
-      process.exit(1)
+      throw new Error('Failed to publish extension.')
     }
   }
 
   core.info('Extension published successfully.')
 }
 
-async function main(): Promise<void> {
-  const clientId = core.getInput('client-id', { required: true })
-  const clientSecret = core.getInput('client-secret', { required: true })
-  const refreshToken = core.getInput('refresh-token', { required: true })
+const clientId = core.getInput('client-id', { required: true })
+const clientSecret = core.getInput('client-secret', { required: true })
+const refreshToken = core.getInput('refresh-token', { required: true })
 
-  const checkCredentialsOnly = core.getBooleanInput('check-credentials-only')
-  if (checkCredentialsOnly) {
-    try {
-      await generateJwtToken(clientId, clientSecret, refreshToken)
-    } catch (e: unknown) {
-      handleError(e)
-    }
-    return
-  }
-
-  const extensionId = core.getInput('extension-id', { required: true })
-  let zipPath = core.getInput('zip-path', { required: true })
-  const testerOnly = core.getBooleanInput('tester-only')
-  const uploadOnly = core.getBooleanInput('upload-only')
-
+const checkCredentialsOnly = core.getBooleanInput('check-credentials-only')
+if (checkCredentialsOnly) {
   try {
-    zipPath = tryResolvePath(zipPath)
-    await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
+    await generateJwtToken(clientId, clientSecret, refreshToken)
   } catch (e: unknown) {
     handleError(e)
   }
+  return
 }
 
-void main()
+const extensionId = core.getInput('extension-id', { required: true })
+let zipPath = core.getInput('zip-path', { required: true })
+const testerOnly = core.getBooleanInput('tester-only')
+const uploadOnly = core.getBooleanInput('upload-only')
+
+try {
+  zipPath = tryResolvePath(zipPath)
+  await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
+} catch (e: unknown) {
+  handleError(e)
+}

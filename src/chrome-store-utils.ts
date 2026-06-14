@@ -144,5 +144,5 @@ export function tryResolvePath(pattern: string): string {
     throw new Error(`Multiple files found: ${pattern}`)
   }
 
-  return foundFiles[0]
+  return foundFiles[0]!
 }

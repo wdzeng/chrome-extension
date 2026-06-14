@@ -19,24 +19,18 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@actions/core": "^1.11.1",
-    "axios": "^1.7.7",
-    "glob": "^11.0.0"
+    "@actions/core": "^3.0.1",
+    "axios": "^1.17.0",
+    "glob": "^13.0.6"
   },
   "devDependencies": {
     "@types/node": "^24.13.1",
-    "dotenv": "^16.4.5",
-    "esbuild": "^0.24.0",
-    "eslint": "^9.12.0",
-    "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.11.1",
-    "prettier": "^3.3.3",
-    "tsx": "^4.19.1",
-    "typescript": "~5.5.4"
-  },
-  "pnpm": {
-    "overrides": {
-      "hasown": "npm:@nolyfill/hasown@^1",
-      "is-core-module": "npm:@nolyfill/is-core-module@^1"
-    }
+    "dotenv": "^17.4.2",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.16.0",
+    "prettier": "^3.8.4",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
   }
 }

@@ -6,7 +6,6 @@ import {
   tryResolvePath,
   updatePackage
 } from '#/chrome-store-utils'
-import { handleError } from '#/errors'
 
 async function run(
   extensionId: string,
@@ -38,28 +37,24 @@ async function run(
   core.info('Extension published successfully.')
 }
 
-const clientId = core.getInput('client-id', { required: true })
-const clientSecret = core.getInput('client-secret', { required: true })
-const refreshToken = core.getInput('refresh-token', { required: true })
+async function main(): Promise<void> {
+  const clientId = core.getInput('client-id', { required: true })
+  const clientSecret = core.getInput('client-secret', { required: true })
+  const refreshToken = core.getInput('refresh-token', { required: true })
 
-const checkCredentialsOnly = core.getBooleanInput('check-credentials-only')
-if (checkCredentialsOnly) {
-  try {
+  const checkCredentialsOnly = core.getBooleanInput('check-credentials-only')
+  if (checkCredentialsOnly) {
     await generateJwtToken(clientId, clientSecret, refreshToken)
-  } catch (e: unknown) {
-    handleError(e)
+    return
   }
-  return
-}
 
-const extensionId = core.getInput('extension-id', { required: true })
-let zipPath = core.getInput('zip-path', { required: true })
-const testerOnly = core.getBooleanInput('tester-only')
-const uploadOnly = core.getBooleanInput('upload-only')
+  const extensionId = core.getInput('extension-id', { required: true })
+  let zipPath = core.getInput('zip-path', { required: true })
+  const testerOnly = core.getBooleanInput('tester-only')
+  const uploadOnly = core.getBooleanInput('upload-only')
 
-try {
   zipPath = tryResolvePath(zipPath)
   await run(extensionId, zipPath, testerOnly, uploadOnly, clientId, clientSecret, refreshToken)
-} catch (e: unknown) {
-  handleError(e)
 }
+
+await main()

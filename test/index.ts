@@ -27,7 +27,6 @@ function buildPackageZip(): string {
   now >>= 16
   const v1 = now & 0xffff
 
-  // eslint-disable-next-line prettier/prettier
   const version = `${v1}.${v2}.${v3}.${v4}`
   core.info(`Package version: ${version}`)
 

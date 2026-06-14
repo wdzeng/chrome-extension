@@ -13,8 +13,8 @@ on:
         default: false
 
 jobs:
-  unittests:
-    name: Run unittests
+  tests:
+    name: Run tests
     if: ${{ !github.event.inputs.force-publish }}
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +34,7 @@ jobs:
         run: pnpm test
   publish:
     name: Publish action
-    needs: unittests
+    needs: tests
     if: ${{ github.ref == 'refs/heads/main' && !failure() && !cancelled() && (github.event_name == 'push' || github.event.inputs.force-publish) }}
     runs-on: ubuntu-latest
     steps:

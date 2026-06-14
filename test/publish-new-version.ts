@@ -8,14 +8,7 @@ import { AxiosError } from 'axios'
 
 import { publishExtension, uploadExtension } from '#/chrome-web-store/utils'
 import { generateJwtToken } from '#/oauth'
-
-function requireEnvironmentVariable(key: string): string {
-  const value = process.env[key]
-  if (!value) {
-    throw new Error(`Environment variable ${key} is required.`)
-  }
-  return value
-}
+import { requireEnvironmentVariable } from '#/utils'
 
 function buildPackageZip(): string {
   let now = Date.now()

@@ -14,9 +14,10 @@
     "#/*": "./src/*.ts"
   },
   "scripts": {
-    "test": "node -r dotenv/config test/index.ts dotenv_config_path=test/.env.local",
-    "lint": "eslint --fix src test",
-    "renew-credentials": "node -r dotenv/config test/renew-credentials.ts dotenv_config_path=test/.env.local"
+    "test": "pnpm test-publish-new-version",
+    "test-publish-new-version": "node -r dotenv/config test/publish-new-version.ts dotenv_config_path=.env.local",
+    "ci-renew-credentials": "node -r dotenv/config ci/renew-credentials.ts dotenv_config_path=.env.local",
+    "lint": "eslint --fix src test"
   },
   "dependencies": {
     "@actions/core": "^3.0.1",

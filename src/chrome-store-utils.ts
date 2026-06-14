@@ -3,7 +3,6 @@ import path from 'node:path'
 
 import * as core from '@actions/core'
 import axios from 'axios'
-import { globSync } from 'glob'
 
 import type { AxiosResponse } from 'axios'
 
@@ -132,17 +131,4 @@ export async function publishExtension(
 
   core.error(`Failed to publish extension. Current state: ${response.data.state}`)
   return false
-}
-
-export function tryResolvePath(pattern: string): string {
-  const foundFiles = globSync(pattern)
-
-  if (foundFiles.length < 1) {
-    throw new Error(`File not found: ${pattern}`)
-  }
-  if (foundFiles.length > 1) {
-    throw new Error(`Multiple files found: ${pattern}`)
-  }
-
-  return foundFiles[0]
 }

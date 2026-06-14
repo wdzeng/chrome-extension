@@ -1,12 +1,8 @@
 import * as core from '@actions/core'
 
-import {
-  generateJwtToken,
-  publishExtension,
-  tryResolvePath,
-  uploadExtension
-} from '#/chrome-store-utils'
+import { generateJwtToken, publishExtension, uploadExtension } from '#/chrome-store-utils'
 import { handleError } from '#/errors'
+import { globFile } from '#/utils'
 
 async function runCheckCredentialsAction(
   clientId: string,
@@ -40,7 +36,7 @@ async function main(): Promise<void> {
     const publisherId = core.getInput('publisher-id', { required: true })
     const extensionId = core.getInput('extension-id', { required: true })
     let zipPath = core.getInput('zip-path', { required: true })
-    zipPath = tryResolvePath(zipPath)
+    zipPath = globFile(zipPath)
 
     const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
     await uploadExtension(publisherId, extensionId, zipPath, jwtToken)

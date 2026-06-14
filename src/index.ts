@@ -1,11 +1,7 @@
 import * as core from '@actions/core'
 
-import {
-  generateJwtToken,
-  publishExtension,
-  tryResolvePath,
-  uploadExtension
-} from '#/chrome-store-utils'
+import { generateJwtToken, publishExtension, uploadExtension } from '#/chrome-store-utils'
+import { globFile } from '#/utils'
 
 async function run(
   publisherId: string,
@@ -55,7 +51,7 @@ async function main(): Promise<void> {
   let zipPath = core.getInput('zip-path', { required: true })
   const uploadOnly = core.getBooleanInput('upload-only')
 
-  zipPath = tryResolvePath(zipPath)
+  zipPath = globFile(zipPath)
   await run(publisherId, extensionId, zipPath, uploadOnly, clientId, clientSecret, refreshToken)
 }
 

@@ -11,11 +11,15 @@ on:
         type: boolean
         required: false
         default: false
+      publish-even-non-main-branch:
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   tests:
     name: Run tests
-    if: ${{ !github.event.inputs.force-publish }}
+    if: github.event.inputs.force-publish != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -35,10 +39,13 @@ jobs:
         run: pnpm test
   publish:
     name: Publish action
-    # On pushing the main branch, publish the action only if tests passes or force-publish is set.
-    # On non-main branches, never publish the action.
     needs: tests
-    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event.inputs.force-publish) }}
+    if: |
+      always() &&
+      (
+        (github.ref_name == 'main' || github.event.inputs.publish-even-non-main-branch == 'true') &&
+        (success() || github.event.inputs.force-publish == 'true')
+      )
     runs-on: ubuntu-latest
     steps:
       - uses: wdzeng/action-of-action@v3

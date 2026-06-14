@@ -43,7 +43,7 @@ export async function generateJwtToken(
   return accessToken
 }
 
-export async function updatePackage(
+export async function uploadExtension(
   publisherId: string,
   extId: string,
   zipPath: string,
@@ -53,7 +53,7 @@ export async function updatePackage(
   // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/media/upload
   // https://developer.chrome.com/docs/webstore/api/reference/rest/v2/publishers.items/fetchStatus
 
-  core.info('Start to update extension package.')
+  core.info('Start to upload extension package.')
 
   const uploadUrl = `https://chromewebstore.googleapis.com/upload/v2/publishers/${publisherId}/items/${extId}:upload`
   const body = fs.createReadStream(path.resolve(zipPath))
@@ -79,11 +79,11 @@ export async function updatePackage(
   }
 
   if (uploadState === 'SUCCEEDED') {
-    core.info('Extension package updated.')
+    core.info('Extension package uploaded.')
     return true
   }
 
-  core.error('Failed to update extension package.')
+  core.error('Failed to upload extension package.')
   if (fetchStatusResponse) {
     const submittedState = fetchStatusResponse.data.submittedItemRevisionStatus?.state
     if (submittedState) {

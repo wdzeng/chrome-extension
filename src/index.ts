@@ -4,7 +4,7 @@ import {
   generateJwtToken,
   publishExtension,
   tryResolvePath,
-  updatePackage
+  uploadExtension
 } from '#/chrome-store-utils'
 import { handleError } from '#/errors'
 
@@ -43,7 +43,7 @@ async function main(): Promise<void> {
     zipPath = tryResolvePath(zipPath)
 
     const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-    await updatePackage(publisherId, extensionId, zipPath, jwtToken)
+    await uploadExtension(publisherId, extensionId, zipPath, jwtToken)
 
     if (action === 'publish') {
       await publishExtension(publisherId, extensionId, jwtToken)

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import * as core from '@actions/core'
 import { AxiosError } from 'axios'
 
-import { generateJwtToken, publishExtension, updatePackage } from '#/chrome-store-utils'
+import { generateJwtToken, publishExtension, uploadExtension } from '#/chrome-store-utils'
 import { handleError } from '#/errors'
 import { requireEnvironmentVariable } from '#/utils'
 
@@ -51,7 +51,7 @@ const zipPath = buildPackageZip()
 
 try {
   const jwtToken = await generateJwtToken(clientId, clientSecret, refreshToken)
-  let success = await updatePackage(publisherId, extensionId, zipPath, jwtToken)
+  let success = await uploadExtension(publisherId, extensionId, zipPath, jwtToken)
   if (!success) {
     process.exit(1)
   }

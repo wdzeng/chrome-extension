@@ -41,4 +41,4 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event.inputs.force-publish) }}
     runs-on: ubuntu-latest
     steps:
-      - uses: wdzeng/action-of-action@v3
+      - uses: wdzeng/action-of-action@v5

@@ -1,7 +1,7 @@
 {
   "name": "chrome-extension",
   "description": "Publish extension to Chrome Web Store.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "author": "hyperbola",
   "private": true,
   "repository": {
@@ -28,19 +28,19 @@
     "glob": "^13.0.6"
   },
   "devDependencies": {
+    "@release-it/conventional-changelog": "^11.0.1",
     "@types/node": "^24.13.1",
     "dotenv": "^17.4.2",
     "esbuild": "^0.28.1",
     "eslint": "^10.5.0",
     "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.16.0",
     "prettier": "^3.8.4",
+    "release-it": "^20.2.0",
+    "release-it-pnpm": "^4.6.6",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   },
   "engines": {
-    "node": ">=24"
-  },
-  "devEngines": {
     "node": ">=24"
   }
 }
